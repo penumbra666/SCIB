@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AAVA-SCIB Program</title>
+<style>
+:root{
+  --bg:#f5fafa;--card:#fff;--text:#000000;--muted:#828282;--border:#e5e7eb;
+  --black:#000000;--white:#f5fafa;--yellow:#ffc30f;--green:#009673;
+  --pink:#f50f7d;--violet:#6464d7;--orange:#f5821e;--emerald:#2ddcaa;
+  --deepgreen:#006450;--regal:#5a37af;--lavender:#968cfa;--gray:#b4b4b4;
+  --shadow:0 14px 38px rgba(0,0,0,.09);--radius:20px
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+header{background:#000;color:#fff;padding:52px 36px 34px;position:relative;min-height:190px}
+.brand{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;min-height:110px}
+.brand-text{padding-top:28px}
+.logo{height:52px;width:auto;object-fit:contain;position:absolute;right:36px;top:24px;filter:brightness(0) saturate(100%) invert(22%) sepia(98%) saturate(4564%) hue-rotate(319deg) brightness(103%) contrast(98%)}
+h1{margin:0;font-size:34px;letter-spacing:-.04em}
+header p{margin:6px 0 0;color:#f5fafa;font-size:16px;opacity:.85}
+.app{max-width:1600px;margin:auto;padding:24px}
+.actions,.workstream-actions,.filters,.mode-switch{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+button{border:0;border-radius:14px;padding:12px 18px;font:inherit;font-weight:850;cursor:pointer;background:#e5e7eb;color:#111827}
+button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(25,245,199,.18)}
+.primary,.tab.active{background:linear-gradient(135deg,var(--pink),var(--violet))!important;color:#fff!important}
+.success{background:var(--pink);color:#fff}.warning{background:var(--violet);color:#fff}.danger{background:#fff0f6;color:var(--pink)}
+.tabs{display:flex!important;flex-wrap:nowrap!important;gap:10px;overflow-x:auto;padding-bottom:14px;margin:18px 0;border-bottom:1px solid var(--border)}
+.tab{flex:0 0 auto;background:#fff;border:1px solid var(--border);white-space:nowrap}
+.global-tab{background:#fff!important;color:#111827!important;border:1px solid var(--border)!important}
+.global-tab.active{background:linear-gradient(135deg,var(--pink),var(--violet))!important;color:#fff!important;border:0!important}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:24px}
+.card h2,.card h3{margin-top:0}.hint{color:var(--muted);font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:7px}.wide{grid-column:span 2}.full{grid-column:1/-1}
+label{font-size:13px;color:var(--muted);font-weight:850}
+input,select,textarea{width:100%;border:1px solid var(--border);border-radius:14px;padding:12px 14px;font:inherit;background:#fff}
+textarea{min-height:90px;resize:vertical}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--border);padding:12px;text-align:left;vertical-align:top;font-size:14px}th{background:#fafafa;cursor:pointer}
+.badge{display:inline-flex;padding:6px 10px;border-radius:999px;font-weight:850;font-size:12px;white-space:nowrap}
+.Not-started{background:#eee;color:#333}.On-going{background:#dffcf6;color:#008a70}.On-hold{background:#fff5bc;color:#8a6d00}.Completed{background:#eeeaff;color:#5942d9}
+.small-actions{display:flex;gap:8px;flex-wrap:wrap}.empty{text-align:center;color:var(--muted);padding:24px}.hidden{display:none!important}
+.filter-panel{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:14px;margin-bottom:14px}.global-filters{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px;margin-bottom:14px}
+.filter-box{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff}
+.filter-title{text-transform:uppercase;letter-spacing:.04em;font-size:12px;color:var(--muted);font-weight:900;margin-bottom:10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{display:inline-flex;gap:7px;align-items:center;border:1px solid var(--border);border-radius:999px;padding:8px 11px;background:#fafafa;font-size:13px;font-weight:800}.chip input{width:auto;margin:0;accent-color:var(--pink)}.chip.selected{background:linear-gradient(135deg,rgba(245,15,125,.18),rgba(100,100,215,.22));border-color:var(--pink)}
+.multi-select{min-height:130px}.filter-help{font-size:12px;color:var(--muted);margin-top:8px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}.modal{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:24px;width:min(720px,100%);max-height:90vh;overflow:auto}.list{display:flex;flex-direction:column;gap:10px}.row{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:14px;padding:12px}
+.gantt{overflow-x:auto}.gantt-grid{min-width:900px}.gantt-header,.gantt-row{display:grid;grid-template-columns:270px 1fr;align-items:center}.timeline{display:grid;border-left:1px solid var(--border)}.tick{border-right:1px solid var(--border);padding:6px 4px;text-align:center;font-size:12px;color:var(--muted)}.gantt-row{min-height:58px;border-top:1px solid var(--border)}.gantt-label{padding:8px;font-size:13px}.bar-area{position:relative;height:40px;border-left:1px solid var(--border);background-image:linear-gradient(to right,rgba(229,231,235,.8) 1px,transparent 1px)}.bar{position:absolute;top:8px;height:25px;border-radius:999px;padding:4px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;font-size:12px}.bar.Not-started{background:#828282;color:#fff}.bar.On-going{background:var(--emerald);color:#000}.bar.On-hold{background:var(--yellow);color:#000}.bar.Completed{background:var(--violet);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:12px;margin-bottom:20px}.kpi{border:1px solid var(--border);border-radius:16px;padding:14px}.kpi-value{font-size:30px;font-weight:950}.kpi-label{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase}
+@media(max-width:1000px){.grid,.filter-panel,.global-filters,.kpis{grid-template-columns:1fr}.wide,.full{grid-column:auto}header,.app{padding:20px}.logo{height:46px}h1{font-size:30px}}
+
+.fullscreen-card{
+  position:fixed!important;
+  inset:16px!important;
+  z-index:200!important;
+  overflow:auto!important;
+  margin:0!important;
+  border-radius:20px!important;
+  box-shadow:0 24px 80px rgba(0,0,0,.35)!important;
+}
+.fullscreen-backdrop{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.52);
+  z-index:190;
+  display:none;
+}
+.section-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+
+.green-btn{background:#009673!important;color:#fff!important}
+.gray-btn{background:#e5e7eb!important;color:#111827!important}
+.status-color-input{width:52px!important;height:38px!important;padding:3px!important;border-radius:10px!important}
+
+
+.status-hex-input{
+  width:90px!important;
+  padding:6px!important;
+  border-radius:8px!important;
+  border:1px solid var(--border)!important;
+  font-size:12px;
+}
+
+
+.uniform-btn{
+  min-width:180px;
+  height:46px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-weight:800;
+}
+.green-btn{
+  background:#009673!important;
+  color:#fff!important;
+}
+.green-btn::first-letter{
+  color:#fff;
+}
+
+
+.yellow-btn{
+  background:#ffc30f!important;
+  color:#000!important;
+}
+
+
+.toolbar-actions{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  width:100%!important;
+  margin-left:0!important;
+  padding-left:0!important;
+}
+
+.toolbar-row{
+  display:grid!important;
+  grid-template-columns:180px 180px!important;
+  gap:12px!important;
+  justify-content:start!important;
+  justify-items:stretch!important;
+  align-items:center!important;
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+.uniform-btn{
+  width:180px!important;
+  min-width:180px!important;
+  max-width:180px!important;
+}
+
+
+.sp-ok{color:#009673;font-weight:900}
+.sp-bad{color:#f50f7d;font-weight:900}
+.sp-grid{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px}
+@media(max-width:900px){.sp-grid{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-text"><h1>AAVA-SCIB Program</h1><p>Workstream, backlog and Gantt management dashboard</p></div>
+    <img class="logo" src="https://ascendion.com/wp-content/uploads/2024/09/ascendion-logo.png" alt="Ascendion logo">
+  </div>
+</header>
+
+<main class="app">
+  
+
+
+
+
+
+<section class="actions toolbar-actions">
+  <div class="toolbar-row">
+    <button class="green-btn uniform-btn" onclick="createWorkstream()">＋ New workstream</button>
+    <button class="yellow-btn uniform-btn" onclick="exportExcel()">📊 Export Excel</button>
+  </div>
+</section>
+
+  <section id="spPanel" class="card"></section>
+<input id="importFile" type="file" accept="application/json" class="hidden" onchange="importJSON(event)">
+<nav id="tabs" class="tabs"></nav>
+  <section id="panel"></section>
+<input id="importWorkstreamFile" type="file" accept="application/json" class="hidden" onchange="importWorkstreamJSON(event)">
+</main>
+
+<div id="ownersModal" class="modal-backdrop"><div class="modal">
+  <h2>Manage owners</h2>
+  <div class="actions"><input id="newOwnerInput" placeholder="New owner"><button class="primary" onclick="addOwner()">Add owner</button><button onclick="closeModal('ownersModal')">Close</button></div>
+  <div id="ownersList" class="list"></div>
+</div></div>
+
+<div id="statusModal" class="modal-backdrop"><div class="modal">
+  <h2>Manage status</h2>
+  <div class="actions"><input id="newStatusInput" placeholder="New status"><button class="primary" onclick="addStatus()">Add status</button><button onclick="closeModal('statusModal')">Close</button></div>
+  <div id="statusList" class="list"></div>
+</div></div>
+
+<script>
+const STORAGE_KEY="aava_scib_program_v11";
+const DEFAULT_STATUSES=["Not started","On going","On hold","Completed"];
+let data=loadData();
+const STATUS_PALETTE=["#f8c8dc","#d8d5fb","#c9f4e7","#fff0b8","#ffd9bd","#d7c8f2","#bfe8dc","#e1defe"];
+
+function getRandomStatusColor(){
+  return STATUS_PALETTE[Math.floor(Math.random()*STATUS_PALETTE.length)];
+}
+
+
+function softenExistingStatusColors(){
+  const brightToSoft={
+    "#f50f7d":"#f8c8dc",
+    "#6464d7":"#d8d5fb",
+    "#2ddcaa":"#c9f4e7",
+    "#ffc30f":"#fff0b8",
+    "#f5821e":"#ffd9bd",
+    "#5a37af":"#d7c8f2",
+    "#009673":"#bfe8dc",
+    "#968cfa":"#e1defe"
+  };
+  if(!data.statusColors)return;
+  Object.keys(data.statusColors).forEach(k=>{
+    const current=String(data.statusColors[k]).toLowerCase();
+    if(brightToSoft[current]) data.statusColors[k]=brightToSoft[current];
+  });
+}
+
+function ensureStatusColors(){
+  if(!data.statusColors) data.statusColors={};
+  data.statuses.forEach(status=>{
+    if(!data.statusColors[status]) data.statusColors[status]=getRandomStatusColor();
+  });
+}
+
+ensureStatusColors();softenExistingStatusColors();
+let activeId="global";
+let globalMode="presentation";
+let editingTaskId=null;
+let sortConfig={field:"endDate",direction:"asc"};
+let taskFilters={statuses:[],owners:[]};
+let globalFilters={workstreams:[],owners:[],statuses:[],dueWindow:""};
+let spConfig={
+  enabled:false,
+  siteUrl:"",
+  listName:"AAVA Program Data",
+  itemTitle:"AAVA-SCIB-Program"
+};
+let spReady=false;
+let spStatus="Local mode only";
+let spSaveTimer=null;
+let spItemId=null;
+
+function uid(p="id"){return `${p}_${Date.now()}_${Math.random().toString(16).slice(2)}`}
+function todayISO(){return new Date().toISOString().slice(0,10)}
+function addDays(dateStr,days){const d=new Date(`${dateStr}T00:00:00`);d.setDate(d.getDate()+Number(days));return d.toISOString().slice(0,10)}
+function daysBetween(a,b){return Math.round((new Date(`${b}T00:00:00`)-new Date(`${a}T00:00:00`))/86400000)}
+function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function cssState(s){return esc(s).replaceAll(" ","-")}
+function normalize(d){
+  if(!d.owners)d.owners=["Germán","Product","Tech Lead"];
+  if(!d.statuses)d.statuses=[...DEFAULT_STATUSES];if(!d.statusColors)d.statusColors={};
+  if(!d.workstreams)d.workstreams=[{id:uid("workstream"),name:"AIPO",mode:"presentation",tasks:[]},{id:uid("workstream"),name:"TOM",mode:"presentation",tasks:[]}];
+  d.workstreams.forEach(w=>{if(!w.mode)w.mode="presentation";if(!w.tasks)w.tasks=[];w.tasks.forEach(t=>{if(!t.endDate&&t.createdAt)t.endDate=addDays(t.createdAt,t.duration||0);if(t.status&&!d.statuses.includes(t.status))d.statuses.push(t.status)})});
+  return d
+}
+function loadData(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw)return normalize(JSON.parse(raw))}catch(e){alert("Stored data was invalid. Loading default data.")}return normalize({owners:["Germán","Product","Tech Lead"],statuses:[...DEFAULT_STATUSES],workstreams:[{id:uid("workstream"),name:"AIPO",mode:"presentation",tasks:[]},{id:uid("workstream"),name:"TOM",mode:"presentation",tasks:[]}]})}
+function save(){
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data,null,2));
+  scheduleSharePointSave();
+}
+function getWorkstream(){return data.workstreams.find(w=>w.id===activeId)}
+
+function deriveSharePointSiteUrl(){
+  const m=location.href.match(/^(https:\/\/[^\/]+\/(?:sites|teams)\/[^\/]+)/i);
+  return m?m[1]:"";
+}
+
+function loadSharePointConfig(){
+  try{
+    const saved=JSON.parse(localStorage.getItem("aava_sp_single_list_config")||"{}");
+    spConfig={...spConfig,...saved};
+  }catch(e){}
+  if(!spConfig.siteUrl)spConfig.siteUrl=deriveSharePointSiteUrl();
+}
+
+function saveSharePointConfig(){
+  localStorage.setItem("aava_sp_single_list_config",JSON.stringify(spConfig,null,2));
+}
+
+function spApi(path){
+  return `${spConfig.siteUrl}/_api/${path}`;
+}
+
+async function spDigest(){
+  const res=await fetch(spApi("contextinfo"),{
+    method:"POST",
+    headers:{"Accept":"application/json;odata=nometadata"}
+  });
+  if(!res.ok)throw new Error(await res.text());
+  const json=await res.json();
+  return json.FormDigestValue;
+}
+
+async function spGet(path){
+  const res=await fetch(spApi(path),{
+    headers:{"Accept":"application/json;odata=nometadata"}
+  });
+  if(!res.ok)throw new Error(await res.text());
+  return res.json();
+}
+
+async function spPost(path,body){
+  const digest=await spDigest();
+  const res=await fetch(spApi(path),{
+    method:"POST",
+    headers:{
+      "Accept":"application/json;odata=nometadata",
+      "Content-Type":"application/json;odata=nometadata",
+      "X-RequestDigest":digest
+    },
+    body:JSON.stringify(body)
+  });
+  if(!res.ok)throw new Error(await res.text());
+  return res.json().catch(()=>({}));
+}
+
+async function spMerge(path,body){
+  const digest=await spDigest();
+  const res=await fetch(spApi(path),{
+    method:"POST",
+    headers:{
+      "Accept":"application/json;odata=nometadata",
+      "Content-Type":"application/json;odata=nometadata",
+      "X-RequestDigest":digest,
+      "IF-MATCH":"*",
+      "X-HTTP-Method":"MERGE"
+    },
+    body:JSON.stringify(body)
+  });
+  if(!res.ok)throw new Error(await res.text());
+}
+
+function escapeOData(value){
+  return String(value).replaceAll("'","''");
+}
+
+async function findSharePointDataItem(){
+  const title=escapeOData(spConfig.itemTitle);
+  const list=escapeOData(spConfig.listName);
+  const result=await spGet(`web/lists/getbytitle('${list}')/items?$filter=Title eq '${title}'&$top=1`);
+  const item=(result.value||[])[0];
+  return item||null;
+}
+
+async function loadDataFromSharePoint(){
+  applySharePointConfig(false);
+  if(!spConfig.enabled)throw new Error("SharePoint mode is disabled.");
+  const item=await findSharePointDataItem();
+  if(!item){
+    spStatus=`Connected. No data item found yet in "${spConfig.listName}". Use "Save to SharePoint" once.`;
+    spReady=true;
+    renderSharePointPanel();
+    return;
+  }
+  spItemId=item.Id;
+  if(!item.JsonData)throw new Error("JsonData column is empty.");
+  data=normalize(JSON.parse(item.JsonData));
+  ensureStatusColors();
+  spReady=true;
+  spStatus=`Loaded from SharePoint item #${spItemId}`;
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data,null,2));
+  activeId="global";
+  loadSharePointConfig();
+render();
+if(spConfig.enabled&&spConfig.siteUrl){loadDataFromSharePoint().catch(err=>{console.error(err);spStatus="SharePoint auto-load failed. Check config/list/permissions.";renderSharePointPanel();});}
+}
+
+async function saveDataToSharePoint(){
+  applySharePointConfig(false);
+  if(!spConfig.enabled)return;
+  const list=escapeOData(spConfig.listName);
+  const body={
+    Title:spConfig.itemTitle,
+    JsonData:JSON.stringify(data)
+  };
+  if(!spItemId){
+    const item=await findSharePointDataItem();
+    if(item)spItemId=item.Id;
+  }
+  if(spItemId){
+    await spMerge(`web/lists/getbytitle('${list}')/items(${spItemId})`,body);
+  }else{
+    const created=await spPost(`web/lists/getbytitle('${list}')/items`,body);
+    spItemId=created.Id;
+  }
+  spReady=true;
+  spStatus=`Saved to SharePoint at ${new Date().toLocaleTimeString()}`;
+  renderSharePointPanel();
+}
+
+function scheduleSharePointSave(){
+  if(!spConfig.enabled||!spReady)return;
+  clearTimeout(spSaveTimer);
+  spSaveTimer=setTimeout(()=>{
+    saveDataToSharePoint().catch(err=>{
+      console.error(err);
+      spStatus="SharePoint autosave failed. Local data is still saved.";
+      renderSharePointPanel();
+    });
+  },900);
+}
+
+function applySharePointConfig(shouldRender=true){
+  const enabled=document.getElementById("spEnabled");
+  if(enabled){
+    spConfig.enabled=enabled.value==="true";
+    spConfig.siteUrl=document.getElementById("spSiteUrl").value.trim();
+    spConfig.listName=document.getElementById("spListName").value.trim();
+    spConfig.itemTitle=document.getElementById("spItemTitle").value.trim();
+  }
+  saveSharePointConfig();
+  if(shouldRender){
+    spStatus="SharePoint configuration saved.";
+    renderSharePointPanel();
+  }
+}
+
+function renderSharePointPanel(){
+  const el=document.getElementById("spPanel");
+  if(!el)return;
+  el.innerHTML=`
+    <h3>SharePoint List backend</h3>
+    <p class="hint">Use one SharePoint List as the shared backend for all workstreams. Required columns: <b>Title</b> and <b>JsonData</b> (Multiple lines of text, plain text).</p>
+    <div class="sp-grid">
+      <div class="field">
+        <label>Mode</label>
+        <select id="spEnabled">
+          <option value="false" ${!spConfig.enabled?"selected":""}>Local only</option>
+          <option value="true" ${spConfig.enabled?"selected":""}>SharePoint List</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>SharePoint site URL</label>
+        <input id="spSiteUrl" value="${esc(spConfig.siteUrl||"")}" placeholder="https://company.sharepoint.com/sites/site">
+      </div>
+      <div class="field">
+        <label>List name</label>
+        <input id="spListName" value="${esc(spConfig.listName)}">
+      </div>
+      <div class="field">
+        <label>Item title</label>
+        <input id="spItemTitle" value="${esc(spConfig.itemTitle)}">
+      </div>
+    </div>
+    <div class="actions" style="margin-top:16px">
+      <button class="primary" onclick="applySharePointConfig()">Save config</button>
+      <button onclick="loadDataFromSharePoint()">Load from SharePoint</button>
+      <button onclick="saveDataToSharePoint()">Save to SharePoint</button>
+    </div>
+    <p class="${spReady?"sp-ok":"sp-bad"}">${esc(spStatus)}</p>
+  `;
+}
+
+function render(){save();renderSharePointPanel();renderTabs();renderPanel()}
+function renderTabs(){
+  const tabs=document.getElementById("tabs");tabs.innerHTML="";
+  const g=document.createElement("button");g.className=`tab global-tab ${activeId==="global"?"active":""}`;g.textContent="Global";g.onclick=()=>{activeId="global";globalMode="presentation";editingTaskId=null;render()};tabs.appendChild(g);
+  data.workstreams.forEach(w=>{const b=document.createElement("button");b.className=`tab ${w.id===activeId?"active":""}`;b.textContent=w.name;b.onclick=()=>{activeId=w.id;editingTaskId=null;taskFilters={statuses:[],owners:[]};w.mode='presentation';render()};tabs.appendChild(b)})
+}
+function renderPanel(){document.getElementById("panel").innerHTML=activeId==="global"?renderGlobal():renderWorkstream();if(activeId!=="global")populateTaskForm()}
+function createWorkstream(){const name=prompt("New workstream name:");if(!name?.trim())return;const w={id:uid("workstream"),name:name.trim(),mode:"presentation",tasks:[]};data.workstreams.push(w);activeId=w.id;render()}
+function renderWorkstream(){const w=getWorkstream();if(!w)return `<div class="card empty">No workstreams yet.</div>`;return `<section class="card"><h2>${esc(w.name)}</h2><div class="mode-switch"><button class="${w.mode==="presentation"?"primary":""}" onclick="setMode('presentation')">Presentation mode</button><button class="${w.mode==="edit"?"primary":""}" onclick="setMode('edit')">Edit mode</button></div>${w.mode==="edit"?editActions():`<p class="hint">Read-only workstream view. Tasks and Gantt are visible; editing controls are hidden.</p>`}</section>${w.mode==="edit"?renderEdit(w):renderPresentation(w)}`}
+function editActions(){return `<div class="workstream-actions"><button onclick="renameWorkstream()">Rename workstream</button><button class="danger" onclick="deleteWorkstream()">Delete workstream</button><button onclick="openOwnersModal()">Manage owners</button><button onclick="openStatusModal()">Manage status</button>
+<button onclick="exportWorkstreamJSON()">⬇️ Export workstream data</button>
+<button onclick="document.getElementById('importWorkstreamFile').click()">⬆️ Import workstream data</button></div>`}
+function setMode(m){getWorkstream().mode=m;editingTaskId=null;render()}
+function renameWorkstream(){const w=getWorkstream();const n=prompt("New workstream name:",w.name);if(!n?.trim())return;w.name=n.trim();render()}
+function deleteWorkstream(){const w=getWorkstream();if(!confirm(`Delete workstream "${w.name}"?`))return;data.workstreams=data.workstreams.filter(x=>x.id!==w.id);activeId="global";render()}
+function renderEdit(w){return `${renderTaskForm(w)}<section id="backlogSection" class="card"><div class="section-title-row"><h3>Backlog</h3><button class="maximize-btn" onclick="toggleMaximize('backlogSection')" title="Expand"></button></div>${renderTaskFilters()}${renderTasksTable(w,true)}</section><section id="ganttSection" class="card"><div class="section-title-row"><h3>Gantt</h3><button class="maximize-btn" onclick="toggleMaximize('ganttSection')" title="Expand"></button></div>${renderGantt(w)}</section>`}
+function renderPresentation(w){return `<section id="backlogSection" class="card"><div class="section-title-row"><h3>Backlog</h3><button class="maximize-btn" onclick="toggleMaximize('backlogSection')" title="Expand"></button></div>${renderTaskFilters()}${renderTasksTable(w,false)}</section><section id="ganttSection" class="card"><div class="section-title-row"><h3>Gantt</h3><button class="maximize-btn" onclick="toggleMaximize('ganttSection')" title="Expand"></button></div>${renderGantt(w)}</section>`}
+function renderTaskFilters(){return `<div class="filter-panel"><div class="filter-box"><div class="filter-title">Status filter</div><div class="chips">${data.statuses.map(s=>`<label class="chip ${taskFilters.statuses.includes(s)?"selected":""}"><input type="checkbox" ${taskFilters.statuses.includes(s)?"checked":""} onchange="toggleArray(taskFilters.statuses,'${esc(s)}',this.checked);render()">${esc(s)}</label>`).join("")}</div></div><div class="filter-box"><div class="filter-title">Owner filter</div><div class="chips">${data.owners.map(o=>`<label class="chip ${taskFilters.owners.includes(o)?"selected":""}"><input type="checkbox" ${taskFilters.owners.includes(o)?"checked":""} onchange="toggleArray(taskFilters.owners,'${esc(o)}',this.checked);render()">${esc(o)}</label>`).join("")}</div></div></div><div class="filter-help">Select multiple values. No selection = all tasks.</div>`}
+function toggleArray(arr,val,checked){const i=arr.indexOf(val);if(checked&&i<0)arr.push(val);if(!checked&&i>=0)arr.splice(i,1)}
+
+function renderTaskForm(w){const t=editingTaskId?w.tasks.find(x=>x.id===editingTaskId):null;return `<section class="card"><h3>${t?"Edit task":"Add task"}</h3><form onsubmit="saveTask(event)"><div class="grid"><div class="field"><label>Task name *</label><input id="taskName" value="${esc(t?.name||"")}" required></div><div class="field"><label>Creation date *</label><input id="taskCreatedAt" type="date" value="${t?.createdAt||todayISO()}" required></div><div class="field"><label>Duration in days *</label><input id="taskDuration" type="number" min="0" value="${t?.duration??1}" required></div><div class="field"><label>Calculated end date</label><input id="taskEndDate" disabled></div><div class="field"><label>Status</label><select id="taskStatus">${data.statuses.map(s=>`<option ${t?.status===s?"selected":""}>${esc(s)}</option>`).join("")}</select></div><div class="field"><label>Owner</label><select id="taskOwner">${data.owners.map(o=>`<option ${t?.owner===o?"selected":""}>${esc(o)}</option>`).join("")}</select></div><div class="field wide"><label>Dependencies</label><select id="taskDependencies" multiple size="4">${w.tasks.filter(x=>x.id!==editingTaskId).map(x=>`<option value="${x.id}" ${(t?.dependencies||[]).includes(x.id)?"selected":""}>#${x.number} ${esc(x.name)}</option>`).join("")}</select></div><div class="field full"><label>Long description</label><textarea id="taskDescription">${esc(t?.description||"")}</textarea></div></div><div class="actions" style="margin-top:16px"><button class="primary" type="submit">${t?"Save changes":"Add task"}</button>${t?`<button type="button" onclick="editingTaskId=null;render()">Cancel editing</button>`:""}</div></form></section>`}
+function populateTaskForm(){const a=document.getElementById("taskCreatedAt"),d=document.getElementById("taskDuration"),e=document.getElementById("taskEndDate");if(!a||!d||!e)return;const upd=()=>{e.value=a.value?addDays(a.value,Number(d.value||0)):""};a.oninput=upd;d.oninput=upd;upd()}
+function nextNum(w){return w.tasks.length?Math.max(...w.tasks.map(t=>t.number||0))+1:1}
+function saveTask(ev){ev.preventDefault();const w=getWorkstream();const id=editingTaskId||uid("task");const task={id,number:editingTaskId?w.tasks.find(t=>t.id===editingTaskId).number:nextNum(w),name:document.getElementById("taskName").value.trim(),description:document.getElementById("taskDescription").value.trim(),createdAt:document.getElementById("taskCreatedAt").value,duration:Number(document.getElementById("taskDuration").value),status:document.getElementById("taskStatus").value,owner:document.getElementById("taskOwner").value,dependencies:Array.from(document.getElementById("taskDependencies").selectedOptions).map(o=>o.value)};task.endDate=addDays(task.createdAt,task.duration);if(!task.name)return alert("Task name is required.");if(task.duration<0||Number.isNaN(task.duration))return alert("Duration must be valid.");if(hasCycle(w,task))return alert("Circular dependencies are not allowed.");if(editingTaskId)w.tasks[w.tasks.findIndex(t=>t.id===editingTaskId)]=task;else w.tasks.push(task);editingTaskId=null;render()}
+function hasCycle(w,candidate){const map=new Map(w.tasks.map(t=>[t.id,t]));map.set(candidate.id,candidate);function visit(id,path=new Set()){if(path.has(id))return true;const t=map.get(id);if(!t)return false;path.add(id);return (t.dependencies||[]).some(dep=>visit(dep,new Set(path)))}return visit(candidate.id)}
+function editTask(id){editingTaskId=id;getWorkstream().mode="edit";
+function toggleMaximize(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  let backdrop=document.getElementById("maximizeBackdrop");
+  if(!backdrop){
+    backdrop=document.createElement("div");
+    backdrop.id="maximizeBackdrop";
+    backdrop.className="maximize-backdrop";
+    backdrop.onclick=()=>closeMaximize();
+    document.body.appendChild(backdrop);
+  }
+  if(el.classList.contains("maximized-card")){
+    closeMaximize();
+    return;
+  }
+  closeMaximize();
+  el.classList.add("maximized-card");
+  backdrop.style.display="block";
+}
+function closeMaximize(){
+  document.querySelectorAll(".maximized-card").forEach(el=>el.classList.remove("maximized-card"));
+  const backdrop=document.getElementById("maximizeBackdrop");
+  if(backdrop)backdrop.style.display="none";
+}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMaximize()});
+
+render();scrollTo({top:0,behavior:"smooth"})}
+function deleteTask(id){const w=getWorkstream();const t=w.tasks.find(x=>x.id===id);if(!confirm(`Delete task "${t.name}"?`))return;w.tasks=w.tasks.filter(x=>x.id!==id);w.tasks.forEach(x=>x.dependencies=(x.dependencies||[]).filter(d=>d!==id));render()}
+
+function renderTasksTable(w,editable){let tasks=[...w.tasks];if(taskFilters.statuses.length)tasks=tasks.filter(t=>taskFilters.statuses.includes(t.status));if(taskFilters.owners.length)tasks=tasks.filter(t=>taskFilters.owners.includes(t.owner));tasks.sort((a,b)=>String(a[sortConfig.field]||"").localeCompare(String(b[sortConfig.field]||""))*(sortConfig.direction==="asc"?1:-1));if(!tasks.length)return `<div class="empty">No backlog items to display.</div>`;return `<div class="table-wrap"><table><thead><tr><th onclick="sortBy('number')">ID</th><th onclick="sortBy('name')">Task</th><th>Description</th><th onclick="sortBy('createdAt')">Start</th><th>Duration</th><th onclick="sortBy('endDate')">End</th><th onclick="sortBy('status')">Status</th><th onclick="sortBy('owner')">Owner</th><th>Dependencies</th>${editable?"<th>Actions</th>":""}</tr></thead><tbody>${tasks.map(t=>`<tr><td>#${t.number}</td><td><strong>${esc(t.name)}</strong></td><td>${esc(t.description)}</td><td>${t.createdAt}</td><td>${t.duration} days</td><td>${t.endDate}</td><td><span class="badge" style="background:${data.statusColors[t.status]||'#e5e7eb'};color:#111827">${esc(t.status)}</span></td><td>${esc(t.owner)}</td><td>${deps(w,t)}</td>${editable?`<td><div class="small-actions"><button onclick="editTask('${t.id}')">Edit</button><button class="danger" onclick="deleteTask('${t.id}')">Delete</button></div></td>`:""}</tr>`).join("")}</tbody></table></div>`}
+function sortBy(f){if(sortConfig.field===f)sortConfig.direction=sortConfig.direction==="asc"?"desc":"asc";else sortConfig={field:f,direction:"asc"};render()}
+function deps(w,t){const d=(t.dependencies||[]).map(id=>w.tasks.find(x=>x.id===id)).filter(Boolean).map(x=>`#${x.number} ${esc(x.name)}`);return d.length?d.join("<br>"):"-"}
+
+function renderGantt(w){if(!w.tasks.length)return `<div class="empty">No tasks available to generate the Gantt.</div>`;const min=w.tasks.reduce((m,t)=>t.createdAt<m?t.createdAt:m,w.tasks[0].createdAt),max=w.tasks.reduce((m,t)=>t.endDate>m?t.endDate:m,w.tasks[0].endDate),days=Math.max(daysBetween(min,max),1)+1,dw=38;const ticks=Array.from({length:days},(_,i)=>`<div class="tick">${addDays(min,i).slice(5)}</div>`).join("");return `<div class="gantt"><div class="gantt-grid"><div class="gantt-header"><div>Task</div><div class="timeline" style="grid-template-columns:repeat(${days},${dw}px)">${ticks}</div></div>${w.tasks.map(t=>{const left=daysBetween(min,t.createdAt)*dw,width=Math.max(Number(t.duration),1)*dw;return `<div class="gantt-row"><div class="gantt-label"><strong>#${t.number} ${esc(t.name)}</strong><br>${esc(t.owner)} · ${t.createdAt} → ${t.endDate}<br><span class="badge" style="background:${data.statusColors[t.status]||'#e5e7eb'};color:#111827">${esc(t.status)}</span><div class="filter-help">Depends on: ${deps(w,t).replaceAll("<br>",", ")}</div></div><div class="bar-area" style="width:${days*dw}px"><div class="bar" style="left:${left}px;width:${width}px;background:#b4b4b4;color:#111827">${esc(t.name)}</div></div></div>`}).join("")}</div></div>`}
+
+function allTasks(){return data.workstreams.flatMap(w=>w.tasks.map(t=>({...t,workstreamId:w.id,workstreamName:w.name})))}
+function dueRange(){if(!globalFilters.dueWindow)return null;const today=new Date();today.setHours(0,0,0,0);const limit=new Date(today);const n=Number(globalFilters.dueWindow.slice(0,-1)),u=globalFilters.dueWindow.slice(-1);if(u==="w")limit.setDate(today.getDate()+n*7);if(u==="m")limit.setMonth(today.getMonth()+n);return{today,limit}}
+function filteredGlobal(){let tasks=allTasks();if(globalFilters.workstreams.length)tasks=tasks.filter(t=>globalFilters.workstreams.includes(t.workstreamId));if(globalFilters.owners.length)tasks=tasks.filter(t=>globalFilters.owners.includes(t.owner));if(globalFilters.statuses.length)tasks=tasks.filter(t=>globalFilters.statuses.includes(t.status));const r=dueRange();if(r)tasks=tasks.filter(t=>{const e=new Date(`${t.endDate}T00:00:00`);return e>=r.today&&e<=r.limit});return tasks.sort((a,b)=>new Date(a.endDate)-new Date(b.endDate))}
+function renderGlobal(){
+  const tasks=filteredGlobal();
+
+  return `
+    <section class="card">
+      <h2>Global</h2>
+      <div class="mode-switch">
+        <button class="${globalMode==="presentation"?"primary":""}" onclick="globalMode='presentation';render()">Presentation mode</button>
+        <button class="${globalMode==="edit"?"primary":""}" onclick="globalMode='edit';render()">Edit mode</button>
+      </div>
+      <p class="hint">Global view aggregating backlog items from all workstreams.</p>
+    </section>
+
+    ${globalMode==="edit" ? renderGlobalEditMode() : ""}
+
+    <section class="card">
+      <h3>Global filters</h3>
+      <div class="global-filters">
+        <div class="filter-box">
+          <div class="filter-title">Workstream</div>
+          <div class="chips">
+            ${data.workstreams.map(w=>`
+              <label class="chip ${globalFilters.workstreams.includes(w.id)?"selected":""}">
+                <input type="checkbox" ${globalFilters.workstreams.includes(w.id)?"checked":""} onchange="toggleArray(globalFilters.workstreams,'${w.id}',this.checked);render()">
+                ${esc(w.name)}
+              </label>
+            `).join("")}
+          </div>
+        </div>
+
+        <div class="filter-box">
+          <div class="filter-title">Owner</div>
+          <select multiple class="multi-select" onchange="setGlobalSelect('owners',this)">
+            ${data.owners.map(o=>`<option value="${esc(o)}" ${globalFilters.owners.includes(o)?"selected":""}>${esc(o)}</option>`).join("")}
+          </select>
+          <div class="filter-help">No selection = all owners</div>
+        </div>
+
+        <div class="filter-box">
+          <div class="filter-title">Status</div>
+          <select multiple class="multi-select" onchange="setGlobalSelect('statuses',this)">
+            ${data.statuses.map(s=>`<option value="${esc(s)}" ${globalFilters.statuses.includes(s)?"selected":""}>${esc(s)}</option>`).join("")}
+          </select>
+          <div class="filter-help">No selection = all statuses</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="globalBacklogSection" class="card">
+      <div class="section-title-row">
+        <h3>Global backlog</h3>
+        <button class="maximize-btn" onclick="toggleMaximize('globalBacklogSection')" title="Expand"></button>
+      </div>
+      ${globalTable(tasks)}
+    </section>
+  `;
+}
+
+function renderGlobalEditMode(){
+  return `
+    <section class="card">
+      <h3>Global data management</h3>
+      <p class="hint">These actions import or export the full dashboard data across all workstreams.</p>
+      <div class="actions">
+        <button onclick="exportJSON()">⬇️ Export data</button>
+        <button onclick="document.getElementById('importFile').click()">⬆️ Import data</button><button onclick="loadDataFromSharePoint()">Load from SharePoint</button><button onclick="saveDataToSharePoint()">Save to SharePoint</button>
+      </div>
+    </section>
+  `;
+}
+
+function setGlobalSelect(type,sel){globalFilters[type]=Array.from(sel.selectedOptions).map(o=>o.value);render()}
+function globalTable(tasks){if(!tasks.length)return `<div class="empty">No backlog items match the selected filters.</div>`;return `<div class="table-wrap"><table><thead><tr><th>Workstream</th><th>ID</th><th>Task</th><th>Description</th><th>Start</th><th>Duration</th><th>End</th><th>Status</th><th>Owner</th></tr></thead><tbody>${tasks.map(t=>`<tr><td><strong>${esc(t.workstreamName)}</strong></td><td>#${t.number}</td><td><strong>${esc(t.name)}</strong></td><td>${esc(t.description)}</td><td>${t.createdAt}</td><td>${t.duration} days</td><td>${t.endDate}</td><td><span class="badge" style="background:${data.statusColors[t.status]||'#e5e7eb'};color:#111827">${esc(t.status)}</span></td><td>${esc(t.owner)}</td></tr>`).join("")}</tbody></table></div>`}
+
+function openOwnersModal(){renderOwners();document.getElementById("ownersModal").style.display="flex"}
+function openStatusModal(){renderStatuses();document.getElementById("statusModal").style.display="flex"}
+function closeModal(id){document.getElementById(id).style.display="none"}
+function renderOwners(){document.getElementById("ownersList").innerHTML=data.owners.map(o=>`<div class="row"><strong>${esc(o)}</strong><button class="danger" onclick="deleteOwner('${esc(o)}')">Delete</button></div>`).join("")||`<div class="empty">No owners.</div>`}
+function addOwner(){const v=document.getElementById("newOwnerInput").value.trim();if(!v)return;if(data.owners.includes(v))return alert("Owner already exists.");data.owners.push(v);document.getElementById("newOwnerInput").value="";renderOwners();render()}
+function deleteOwner(o){const used=data.workstreams.some(w=>w.tasks.some(t=>t.owner===o));if(used&&!confirm(`Owner "${o}" is in use. Delete anyway?`))return;data.owners=data.owners.filter(x=>x!==o);data.workstreams.forEach(w=>w.tasks.forEach(t=>{if(t.owner===o)t.owner=""}));renderOwners();render()}
+function renderStatuses(){
+  const list=document.getElementById("statusList");
+  list.innerHTML=data.statuses.map(s=>`
+    <div class="row">
+      <strong>${esc(s)}</strong>
+      <input class="status-color-input" type="color" value="${data.statusColors?.[s]||'#828282'}" 
+        onchange="changeStatusColor('${esc(s)}',this.value);syncHexInput('${esc(s)}',this.value)">
+       <input type="text" class="status-hex-input" value="${data.statusColors?.[s]||'#828282'}" 
+        onchange="changeStatusColor('${esc(s)}',this.value);syncColorInput('${esc(s)}',this.value)">
+      <button class="danger" onclick="deleteStatus('${esc(s)}')">Delete</button>
+    </div>
+  `).join("")||`<div class="empty">No status values.</div>`;
+}
+function addStatus(){const v=document.getElementById("newStatusInput").value.trim();if(!v)return;if(data.statuses.includes(v))return alert("Status already exists.");data.statuses.push(v);if(!data.statusColors)data.statusColors={};data.statusColors[v]=getRandomStatusColor();document.getElementById("newStatusInput").value="";renderStatuses();render()}
+function syncHexInput(status,color){
+  const inputs=document.querySelectorAll('.status-hex-input');
+}
+function syncColorInput(status,color){
+  const colorInputs=document.querySelectorAll('.status-color-input');
+}
+function changeStatusColor(status,color){
+  if(!data.statusColors)data.statusColors={};
+  data.statusColors[status]=color;
+  save();
+  render();
+}
+function deleteStatus(s){const used=data.workstreams.some(w=>w.tasks.some(t=>t.status===s));if(used&&!confirm(`Status "${s}" is in use. Tasks will move to another status. Continue?`))return;const fallback=data.statuses.find(x=>x!==s)||"Not started";data.statuses=data.statuses.filter(x=>x!==s);if(data.statusColors)delete data.statusColors[s];if(!data.statuses.length)data.statuses=[fallback];data.workstreams.forEach(w=>w.tasks.forEach(t=>{if(t.status===s)t.status=data.statuses[0]}));taskFilters.statuses=taskFilters.statuses.filter(x=>x!==s);globalFilters.statuses=globalFilters.statuses.filter(x=>x!==s);renderStatuses();render()}
+
+
+function sanitizeWorkstreamImport(imported,currentWorkstream){
+  let candidate=null;
+
+  if(imported && imported.type==="workstream" && imported.workstream){
+    candidate=imported.workstream;
+  }else if(imported && imported.name && Array.isArray(imported.tasks)){
+    candidate=imported;
+  }else{
+    throw new Error("Invalid workstream file");
+  }
+
+  const clean={
+    id:currentWorkstream.id,
+    name:currentWorkstream.name,
+    mode:"edit",
+    tasks:Array.isArray(candidate.tasks)?candidate.tasks:[]
+  };
+
+  clean.tasks=clean.tasks.map((t,index)=>({
+    id:t.id||uid("task"),
+    number:t.number||index+1,
+    name:t.name||`Task ${index+1}`,
+    description:t.description||"",
+    createdAt:t.createdAt||todayISO(),
+    duration:Number(t.duration||0),
+    endDate:t.endDate||addDays(t.createdAt||todayISO(),Number(t.duration||0)),
+    status:t.status||data.statuses[0]||"Not started",
+    owner:t.owner||"",
+    dependencies:Array.isArray(t.dependencies)?t.dependencies:[]
+  }));
+
+  clean.tasks.forEach(t=>{
+    if(t.status && !data.statuses.includes(t.status)){
+      data.statuses.push(t.status);
+      if(!data.statusColors)data.statusColors={};
+      data.statusColors[t.status]=getRandomStatusColor();
+    }
+    if(t.owner && !data.owners.includes(t.owner)){
+      data.owners.push(t.owner);
+    }
+  });
+
+  const validIds=new Set(clean.tasks.map(t=>t.id));
+  clean.tasks.forEach(t=>{
+    t.dependencies=(t.dependencies||[]).filter(dep=>validIds.has(dep)&&dep!==t.id);
+    t.endDate=addDays(t.createdAt,t.duration);
+  });
+
+  return clean;
+}
+
+function exportWorkstreamJSON(){
+  const w=getWorkstream();
+  if(!w)return alert("No workstream selected.");
+  const now=new Date();
+  const hh=String(now.getHours()).padStart(2,'0');
+  const mm=String(now.getMinutes()).padStart(2,'0');
+  const safeName=w.name.replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'').toLowerCase()||"workstream";
+  const payload={
+    type:"workstream",
+    exportedAt:new Date().toISOString(),
+    sourceWorkstreamId:w.id,
+    sourceWorkstreamName:w.name,
+    workstream:{
+      id:w.id,
+      name:w.name,
+      tasks:w.tasks
+    }
+  };
+  download(`aava-scib-${safeName}-workstream-${todayISO()}-${hh}${mm}.json`,JSON.stringify(payload,null,2),"application/json");
+}
+
+function importWorkstreamJSON(event){
+  const file=event.target.files[0];
+  if(!file)return;
+
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const imported=JSON.parse(e.target.result);
+
+      if(!imported || imported.type!=="workstream" || !imported.sourceWorkstreamId || !imported.workstream){
+        throw new Error("Invalid workstream export file");
+      }
+
+      const targetIndex=data.workstreams.findIndex(w=>w.id===imported.sourceWorkstreamId);
+
+      if(targetIndex<0){
+        alert(`This file belongs to workstream "${imported.sourceWorkstreamName||imported.workstream.name}", but that workstream does not exist in this dashboard. No data has been imported.`);
+        event.target.value="";
+        return;
+      }
+
+      const targetWorkstream=data.workstreams[targetIndex];
+
+      if(!confirm(`This file was exported from workstream "${imported.sourceWorkstreamName||targetWorkstream.name}". It will update only that workstream, even if you are currently viewing another one. Continue?`)){
+        event.target.value="";
+        return;
+      }
+
+      const clean=sanitizeWorkstreamImport(imported,targetWorkstream);
+      clean.id=targetWorkstream.id;
+      clean.name=targetWorkstream.name;
+
+      data.workstreams[targetIndex]=clean;
+      ensureStatusColors();
+      softenExistingStatusColors();
+      activeId=clean.id;
+      editingTaskId=null;
+      render();
+      alert(`Workstream "${clean.name}" imported successfully.`);
+    }catch(err){
+      alert("Invalid workstream JSON file.");
+    }
+    event.target.value="";
+  };
+  reader.readAsText(file);
+}
+
+
+function exportJSON(){
+  const now=new Date();
+  const hh=String(now.getHours()).padStart(2,'0');
+  const mm=String(now.getMinutes()).padStart(2,'0');
+  download(`aava-scib-program-${todayISO()}-${hh}${mm}.json`,JSON.stringify(data,null,2),"application/json")}
+function importJSON(e){const f=e.target.files[0];if(!f)return;if(!confirm("Importing will overwrite current data. Continue?"))return;e.target.value="";const r=new FileReader();r.onload=ev=>{try{data=normalize(JSON.parse(ev.target.result));ensureStatusColors();activeId="global";render();alert("Data imported successfully.")}catch{alert("Invalid JSON file.")}};r.readAsText(f)}
+function exportExcel(){const sheets=data.workstreams.map(w=>`<Worksheet ss:Name="${esc(w.name).slice(0,31)}"><Table><Row>${["ID","Task","Description","Start","Duration","End","Status","Owner","Dependencies"].map(h=>`<Cell><Data ss:Type="String">${h}</Data></Cell>`).join("")}</Row>${w.tasks.map(t=>`<Row><Cell><Data ss:Type="String">#${t.number}</Data></Cell><Cell><Data ss:Type="String">${esc(t.name)}</Data></Cell><Cell><Data ss:Type="String">${esc(t.description)}</Data></Cell><Cell><Data ss:Type="String">${t.createdAt}</Data></Cell><Cell><Data ss:Type="Number">${t.duration}</Data></Cell><Cell><Data ss:Type="String">${t.endDate}</Data></Cell><Cell><Data ss:Type="String">${esc(t.status)}</Data></Cell><Cell><Data ss:Type="String">${esc(t.owner)}</Data></Cell><Cell><Data ss:Type="String">${deps(w,t).replaceAll("<br>",", ")}</Data></Cell></Row>`).join("")}</Table></Worksheet>`).join("");const xls=`<?xml version="1.0"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">${sheets}</Workbook>`;download(`aava-scib-tasks-${todayISO()}.xls`,xls,"application/vnd.ms-excel")}
+function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+render();
+</script>
+</body>
+</html>
