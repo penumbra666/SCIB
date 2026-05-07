@@ -1,183 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AAVA-SCIB Program</title>
 <style>
 :root{
-  --bg:#f5fafa;--card:#fff;--text:#000000;--muted:#828282;--border:#e5e7eb;
-  --black:#000000;--white:#f5fafa;--yellow:#ffc30f;--green:#009673;
-  --pink:#f50f7d;--violet:#6464d7;--orange:#f5821e;--emerald:#2ddcaa;
-  --deepgreen:#006450;--regal:#5a37af;--lavender:#968cfa;--gray:#b4b4b4;
-  --shadow:0 14px 38px rgba(0,0,0,.09);--radius:20px
+  --bg:#f5fafa;--card:#fff;--text:#111827;--muted:#828282;--border:#e5e7eb;
+  --green:#009673;--yellow:#ffc30f;--pink:#f50f7d;--violet:#6464d7;--gray:#b4b4b4;
+  --shadow:0 14px 38px rgba(0,0,0,.09);--radius:20px;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-header{background:#000;color:#fff;padding:52px 36px 34px;position:relative;min-height:190px}
-.brand{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;min-height:110px}
-.brand-text{padding-top:28px}
-.logo{height:52px;width:auto;object-fit:contain;position:absolute;right:36px;top:24px;filter:brightness(0) saturate(100%) invert(22%) sepia(98%) saturate(4564%) hue-rotate(319deg) brightness(103%) contrast(98%)}
-h1{margin:0;font-size:34px;letter-spacing:-.04em}
-header p{margin:6px 0 0;color:#f5fafa;font-size:16px;opacity:.85}
-.app{max-width:1600px;margin:auto;padding:24px}
-.actions,.workstream-actions,.filters,.mode-switch{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+header{background:#000;color:#fff;padding:20px 36px 18px;position:relative;min-height:96px}
+.brand-title{padding-top:8px}
+.logo{height:72px;max-width:260px;object-fit:contain;position:absolute;right:36px;top:12px}
+h1{margin:0;font-size:28px;letter-spacing:-.04em}
+header p{margin:4px 0 0;color:#f5fafa;opacity:.85;font-size:13px}
+.app{max-width:1600px;margin:auto;padding:16px 24px}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:16px}
 button{border:0;border-radius:14px;padding:12px 18px;font:inherit;font-weight:850;cursor:pointer;background:#e5e7eb;color:#111827}
-button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(25,245,199,.18)}
+button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(245,15,125,.15)}
 .primary,.tab.active{background:linear-gradient(135deg,var(--pink),var(--violet))!important;color:#fff!important}
-.success{background:var(--pink);color:#fff}.warning{background:var(--violet);color:#fff}.danger{background:#fff0f6;color:var(--pink)}
-.tabs{display:flex!important;flex-wrap:nowrap!important;gap:10px;overflow-x:auto;padding-bottom:14px;margin:18px 0;border-bottom:1px solid var(--border)}
+.green{background:var(--green)!important;color:#fff!important}.yellow{background:var(--yellow)!important;color:#000!important}.danger{background:#fff0f6!important;color:var(--pink)!important}
+.ops-grid{display:grid;grid-template-columns:160px 120px 110px 110px;gap:8px;align-items:center;justify-content:start}
+.ops-grid button{height:38px;white-space:nowrap;padding:8px 12px;border-radius:11px;font-size:13px}
+.tabs{display:flex;gap:10px;overflow-x:auto;padding-bottom:10px;margin:12px 0 14px;border-bottom:1px solid var(--border)}
 .tab{flex:0 0 auto;background:#fff;border:1px solid var(--border);white-space:nowrap}
 .global-tab{background:#fff!important;color:#111827!important;border:1px solid var(--border)!important}
 .global-tab.active{background:linear-gradient(135deg,var(--pink),var(--violet))!important;color:#fff!important;border:0!important}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin-bottom:24px}
-.card h2,.card h3{margin-top:0}.hint{color:var(--muted);font-size:16px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:14px}
-.field{display:flex;flex-direction:column;gap:7px}.wide{grid-column:span 2}.full{grid-column:1/-1}
-label{font-size:13px;color:var(--muted);font-weight:850}
-input,select,textarea{width:100%;border:1px solid var(--border);border-radius:14px;padding:12px 14px;font:inherit;background:#fff}
-textarea{min-height:90px;resize:vertical}
-.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--border);padding:12px;text-align:left;vertical-align:top;font-size:14px}th{background:#fafafa;cursor:pointer}
-.badge{display:inline-flex;padding:6px 10px;border-radius:999px;font-weight:850;font-size:12px;white-space:nowrap}
-.Not-started{background:#eee;color:#333}.On-going{background:#dffcf6;color:#008a70}.On-hold{background:#fff5bc;color:#8a6d00}.Completed{background:#eeeaff;color:#5942d9}
-.small-actions{display:flex;gap:8px;flex-wrap:wrap}.empty{text-align:center;color:var(--muted);padding:24px}.hidden{display:none!important}
-.filter-panel{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:14px;margin-bottom:14px}.global-filters{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px;margin-bottom:14px}
-.filter-box{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff}
-.filter-title{text-transform:uppercase;letter-spacing:.04em;font-size:12px;color:var(--muted);font-weight:900;margin-bottom:10px}
-.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{display:inline-flex;gap:7px;align-items:center;border:1px solid var(--border);border-radius:999px;padding:8px 11px;background:#fafafa;font-size:13px;font-weight:800}.chip input{width:auto;margin:0;accent-color:var(--pink)}.chip.selected{background:linear-gradient(135deg,rgba(245,15,125,.18),rgba(100,100,215,.22));border-color:var(--pink)}
-.multi-select{min-height:130px}.filter-help{font-size:12px;color:var(--muted);margin-top:8px}
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}.modal{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:24px;width:min(720px,100%);max-height:90vh;overflow:auto}.list{display:flex;flex-direction:column;gap:10px}.row{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:14px;padding:12px}
-.gantt{overflow-x:auto}.gantt-grid{min-width:900px}.gantt-header,.gantt-row{display:grid;grid-template-columns:270px 1fr;align-items:center}.timeline{display:grid;border-left:1px solid var(--border)}.tick{border-right:1px solid var(--border);padding:6px 4px;text-align:center;font-size:12px;color:var(--muted)}.gantt-row{min-height:58px;border-top:1px solid var(--border)}.gantt-label{padding:8px;font-size:13px}.bar-area{position:relative;height:40px;border-left:1px solid var(--border);background-image:linear-gradient(to right,rgba(229,231,235,.8) 1px,transparent 1px)}.bar{position:absolute;top:8px;height:25px;border-radius:999px;padding:4px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;font-size:12px}.bar.Not-started{background:#828282;color:#fff}.bar.On-going{background:var(--emerald);color:#000}.bar.On-hold{background:var(--yellow);color:#000}.bar.Completed{background:var(--violet);color:#fff}
-.kpis{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:12px;margin-bottom:20px}.kpi{border:1px solid var(--border);border-radius:16px;padding:14px}.kpi-value{font-size:30px;font-weight:950}.kpi-label{font-size:12px;color:var(--muted);font-weight:900;text-transform:uppercase}
-@media(max-width:1000px){.grid,.filter-panel,.global-filters,.kpis{grid-template-columns:1fr}.wide,.full{grid-column:auto}header,.app{padding:20px}.logo{height:46px}h1{font-size:30px}}
-
-.fullscreen-card{
-  position:fixed!important;
-  inset:16px!important;
-  z-index:200!important;
-  overflow:auto!important;
-  margin:0!important;
-  border-radius:20px!important;
-  box-shadow:0 24px 80px rgba(0,0,0,.35)!important;
-}
-.fullscreen-backdrop{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.52);
-  z-index:190;
-  display:none;
-}
-.section-title-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-
-.green-btn{background:#009673!important;color:#fff!important}
-.gray-btn{background:#e5e7eb!important;color:#111827!important}
-.status-color-input{width:52px!important;height:38px!important;padding:3px!important;border-radius:10px!important}
-
-
-.status-hex-input{
-  width:90px!important;
-  padding:6px!important;
-  border-radius:8px!important;
-  border:1px solid var(--border)!important;
-  font-size:12px;
-}
-
-
-.uniform-btn{
-  min-width:180px;
-  height:46px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  font-weight:800;
-}
-.green-btn{
-  background:#009673!important;
-  color:#fff!important;
-}
-.green-btn::first-letter{
-  color:#fff;
-}
-
-
-.yellow-btn{
-  background:#ffc30f!important;
-  color:#000!important;
-}
-
-
-.toolbar-actions{
-  display:flex!important;
-  flex-direction:column!important;
-  align-items:flex-start!important;
-  justify-content:flex-start!important;
-  gap:10px!important;
-  width:100%!important;
-  margin-left:0!important;
-  padding-left:0!important;
-}
-
-.toolbar-row{
-  display:grid!important;
-  grid-template-columns:180px 180px!important;
-  gap:12px!important;
-  justify-content:start!important;
-  justify-items:stretch!important;
-  align-items:center!important;
-  width:auto!important;
-  margin:0!important;
-  padding:0!important;
-}
-
-.uniform-btn{
-  width:180px!important;
-  min-width:180px!important;
-  max-width:180px!important;
-}
-
-
-.sp-ok{color:#009673;font-weight:900}
-.sp-bad{color:#f50f7d;font-weight:900}
-.sp-grid{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px}
-@media(max-width:900px){.sp-grid{grid-template-columns:1fr}}
-
+.actions,.mode-switch,.workstream-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px}.wide{grid-column:span 2}.full{grid-column:1/-1}
+label{font-size:13px;color:var(--muted);font-weight:850}input,select,textarea{width:100%;border:1px solid var(--border);border-radius:14px;padding:12px 14px;font:inherit;background:#fff}textarea{min-height:90px}
+.hint{color:var(--muted);font-size:15px}.ok{color:var(--green);font-weight:900}.bad{color:var(--pink);font-weight:900}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--border);padding:12px;text-align:left;vertical-align:top;font-size:14px}th{background:#fafafa}
+.badge{display:inline-flex;padding:6px 10px;border-radius:999px;font-weight:850;font-size:12px;white-space:nowrap}.type-pill{display:inline-flex;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:900;background:#eef2ff;color:#3730a3}.type-pill.milestone{background:#111827;color:#fff}
+.milestone-row td{background:#f7f7fb;font-weight:900}.child-cell{padding-left:34px!important}.global-workstream-row td{background:#000!important;color:#fff!important;font-weight:900}
+.empty{text-align:center;color:var(--muted);padding:24px}.hidden{display:none!important}
+.filter-grid{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:14px}.filter-box{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fff}.filter-title{text-transform:uppercase;letter-spacing:.04em;font-size:12px;color:var(--muted);font-weight:900;margin-bottom:10px}.chips{display:flex;gap:8px;flex-wrap:wrap}.chip{display:inline-flex;gap:7px;align-items:center;border:1px solid var(--border);border-radius:999px;padding:8px 11px;background:#fafafa;font-size:13px;font-weight:800}.chip input{width:auto;margin:0;accent-color:var(--pink)}.chip.selected{background:linear-gradient(135deg,rgba(245,15,125,.18),rgba(100,100,215,.22));border-color:var(--pink)}
+.multi-select{min-height:130px}.small{font-size:12px;color:var(--muted)}
+.gantt{overflow-x:auto}.gantt-grid{min-width:980px}.gantt-header,.gantt-row{display:grid;grid-template-columns:330px 1fr;align-items:center}.timeline{display:grid;border-left:1px solid var(--border)}.tick{border-right:1px solid var(--border);padding:6px 4px;text-align:center;font-size:12px;color:var(--muted)}.gantt-row{min-height:58px;border-top:1px solid var(--border)}.gantt-label{padding:8px;font-size:13px}.bar-area{position:relative;height:40px;border-left:1px solid var(--border);background-image:linear-gradient(to right,rgba(229,231,235,.8) 1px,transparent 1px)}.bar{position:absolute;top:8px;height:25px;border-radius:999px;padding:4px 10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;font-size:12px;background:#b4b4b4;color:#111827}.bar.milestone{height:30px;top:5px;background:linear-gradient(135deg,var(--pink),var(--violet));color:#fff;border-radius:8px;box-shadow:0 8px 20px rgba(245,15,125,.25)}
+.section-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.maximize-btn{width:42px;height:42px;padding:0;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:12px;background:linear-gradient(135deg,var(--pink),var(--violet));color:#fff;font-size:22px}.maximize-btn::before{content:"⊠"}.maximized-card .maximize-btn::before{content:"×"}.maximized-card{position:fixed!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%)!important;width:min(96vw,1500px)!important;height:min(92vh,900px)!important;z-index:200!important;overflow:auto!important;margin:0!important;box-shadow:0 28px 90px rgba(0,0,0,.48)!important}.maximize-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.62);backdrop-filter:blur(3px);z-index:190;display:none}
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:99}.modal{background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:24px;width:min(760px,100%);max-height:90vh;overflow:auto}.list{display:flex;flex-direction:column;gap:10px}.row{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:14px;padding:12px;gap:10px}.status-color{width:52px!important;height:38px!important;padding:3px!important}.status-hex{width:95px!important;padding:7px!important;font-size:12px}
+.ops-card{padding:10px 12px}.ops-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.data-status{margin-left:auto;padding:8px 12px;border:1px solid var(--border);border-radius:12px;background:#fafafa;font-size:12px;font-weight:850;white-space:nowrap}.title-actions{display:flex;align-items:center;gap:10px}.edit-backlog-btn{background:linear-gradient(135deg,var(--pink),var(--violet))!important;color:#fff!important;padding:8px 14px;border-radius:12px;font-size:13px}.milestone-row td{border-left:4px solid var(--pink)}
+@media(max-width:1000px){.grid,.filter-grid{grid-template-columns:1fr}.wide,.full{grid-column:auto}.ops-grid{grid-template-columns:1fr 1fr}.logo{height:56px;right:20px}header,.app{padding:16px 20px}h1{font-size:24px}}
+@media(max-width:520px){.ops-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">
-    <div class="brand-text"><h1>AAVA-SCIB Program</h1><p>Workstream, backlog and Gantt management dashboard</p></div>
-    <img class="logo" src="https://ascendion.com/wp-content/uploads/2024/09/ascendion-logo.png" alt="Ascendion logo">
-  </div>
+  <div class="brand-title"><h1>AAVA-SCIB Program</h1><p>Azure Blob backed workstream, milestones, backlog and Gantt dashboard</p></div>
+  <img class="logo" src="data:image/png;base64,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" alt="Ascendion logo">
 </header>
 
 <main class="app">
-  
-
-
-
-
-
-<section class="actions toolbar-actions">
-  <div class="toolbar-row">
-    <button class="green-btn uniform-btn" onclick="createWorkstream()">＋ New workstream</button>
-    <button class="yellow-btn uniform-btn" onclick="exportExcel()">📊 Export Excel</button>
-  </div>
-</section>
-
-  <section id="spPanel" class="card"></section>
-<input id="importFile" type="file" accept="application/json" class="hidden" onchange="importJSON(event)">
-<nav id="tabs" class="tabs"></nav>
+  <section class="card ops-card">
+    <div class="ops-bar">
+      <div class="ops-grid">
+        <button class="green" onclick="createWorkstream()">＋ Workstream</button>
+        <button class="yellow" onclick="exportExcel()">📊 Excel</button>
+        <button onclick="saveToBlob()">💾 Save</button>
+        <button onclick="loadFromBlob()">🔄 Load</button>
+      </div>
+      <div id="dataStatus" class="data-status">Loading data...</div>
+    </div>
+  </section>
+  <nav id="tabs" class="tabs"></nav>
   <section id="panel"></section>
-<input id="importWorkstreamFile" type="file" accept="application/json" class="hidden" onchange="importWorkstreamJSON(event)">
+
+  <input id="importFile" type="file" accept="application/json" class="hidden" onchange="importJSON(event)">
+  <input id="importWorkstreamFile" type="file" accept="application/json" class="hidden" onchange="importWorkstreamJSON(event)">
 </main>
 
 <div id="ownersModal" class="modal-backdrop"><div class="modal">
@@ -193,572 +85,221 @@ textarea{min-height:90px;resize:vertical}
 </div></div>
 
 <script>
-const STORAGE_KEY="aava_scib_program_v11";
+const STORAGE_KEY="aava_scib_program_blob_v6";
 const DEFAULT_STATUSES=["Not started","On going","On hold","Completed"];
-let data=loadData();
 const STATUS_PALETTE=["#f8c8dc","#d8d5fb","#c9f4e7","#fff0b8","#ffd9bd","#d7c8f2","#bfe8dc","#e1defe"];
 
-function getRandomStatusColor(){
-  return STATUS_PALETTE[Math.floor(Math.random()*STATUS_PALETTE.length)];
-}
+const blobConfig={
+  enabled:true,
+  containerSasUrl:"https://scib.blob.core.windows.net/scib?sp=racwdli&st=2026-05-07T20:14:04Z&se=2026-05-08T04:29:04Z&spr=https&sv=2025-11-05&sr=c&sig=qbIH9qAuV%2FRB1RXlg%2FX40i3YDM4uH6ND3rHly9ZN%2FQs%3D",
+  blobName:"aava-scib-data.json"
+};
 
-
-function softenExistingStatusColors(){
-  const brightToSoft={
-    "#f50f7d":"#f8c8dc",
-    "#6464d7":"#d8d5fb",
-    "#2ddcaa":"#c9f4e7",
-    "#ffc30f":"#fff0b8",
-    "#f5821e":"#ffd9bd",
-    "#5a37af":"#d7c8f2",
-    "#009673":"#bfe8dc",
-    "#968cfa":"#e1defe"
-  };
-  if(!data.statusColors)return;
-  Object.keys(data.statusColors).forEach(k=>{
-    const current=String(data.statusColors[k]).toLowerCase();
-    if(brightToSoft[current]) data.statusColors[k]=brightToSoft[current];
-  });
-}
-
-function ensureStatusColors(){
-  if(!data.statusColors) data.statusColors={};
-  data.statuses.forEach(status=>{
-    if(!data.statusColors[status]) data.statusColors[status]=getRandomStatusColor();
-  });
-}
-
-ensureStatusColors();softenExistingStatusColors();
+let data=loadCache();
 let activeId="global";
 let globalMode="presentation";
-let editingTaskId=null;
-let sortConfig={field:"endDate",direction:"asc"};
-let taskFilters={statuses:[],owners:[]};
-let globalFilters={workstreams:[],owners:[],statuses:[],dueWindow:""};
-let spConfig={
-  enabled:false,
-  siteUrl:"",
-  listName:"AAVA Program Data",
-  itemTitle:"AAVA-SCIB-Program"
-};
-let spReady=false;
-let spStatus="Local mode only";
-let spSaveTimer=null;
-let spItemId=null;
+let editingItemId=null;
+let blobReady=false;
+let blobStatus="Loading data...";
+let saveTimer=null;
+let globalFilters={workstreams:[],owners:[],statuses:[]};
 
-function uid(p="id"){return `${p}_${Date.now()}_${Math.random().toString(16).slice(2)}`}
+function uid(p="id"){return p+"_"+Date.now()+"_"+Math.random().toString(16).slice(2)}
 function todayISO(){return new Date().toISOString().slice(0,10)}
-function addDays(dateStr,days){const d=new Date(`${dateStr}T00:00:00`);d.setDate(d.getDate()+Number(days));return d.toISOString().slice(0,10)}
-function daysBetween(a,b){return Math.round((new Date(`${b}T00:00:00`)-new Date(`${a}T00:00:00`))/86400000)}
+function addDays(dateStr,days){const d=new Date(dateStr+"T00:00:00");d.setDate(d.getDate()+Number(days));return d.toISOString().slice(0,10)}
+function daysBetween(a,b){return Math.round((new Date(b+"T00:00:00")-new Date(a+"T00:00:00"))/86400000)}
 function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
-function cssState(s){return esc(s).replaceAll(" ","-")}
+function randomColor(){return STATUS_PALETTE[Math.floor(Math.random()*STATUS_PALETTE.length)]}
+function defaultData(){return{owners:["Germán","Product","Tech Lead"],statuses:[...DEFAULT_STATUSES],statusColors:{},workstreams:[{id:"workstream_aipo",name:"AIPO",mode:"presentation",items:[]},{id:"workstream_tom",name:"TOM",mode:"presentation",items:[]}]}}
 function normalize(d){
-  if(!d.owners)d.owners=["Germán","Product","Tech Lead"];
-  if(!d.statuses)d.statuses=[...DEFAULT_STATUSES];if(!d.statusColors)d.statusColors={};
-  if(!d.workstreams)d.workstreams=[{id:uid("workstream"),name:"AIPO",mode:"presentation",tasks:[]},{id:uid("workstream"),name:"TOM",mode:"presentation",tasks:[]}];
-  d.workstreams.forEach(w=>{if(!w.mode)w.mode="presentation";if(!w.tasks)w.tasks=[];w.tasks.forEach(t=>{if(!t.endDate&&t.createdAt)t.endDate=addDays(t.createdAt,t.duration||0);if(t.status&&!d.statuses.includes(t.status))d.statuses.push(t.status)})});
-  return d
-}
-function loadData(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw)return normalize(JSON.parse(raw))}catch(e){alert("Stored data was invalid. Loading default data.")}return normalize({owners:["Germán","Product","Tech Lead"],statuses:[...DEFAULT_STATUSES],workstreams:[{id:uid("workstream"),name:"AIPO",mode:"presentation",tasks:[]},{id:uid("workstream"),name:"TOM",mode:"presentation",tasks:[]}]})}
-function save(){
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(data,null,2));
-  scheduleSharePointSave();
-}
-function getWorkstream(){return data.workstreams.find(w=>w.id===activeId)}
-
-function deriveSharePointSiteUrl(){
-  const m=location.href.match(/^(https:\/\/[^\/]+\/(?:sites|teams)\/[^\/]+)/i);
-  return m?m[1]:"";
-}
-
-function loadSharePointConfig(){
-  try{
-    const saved=JSON.parse(localStorage.getItem("aava_sp_single_list_config")||"{}");
-    spConfig={...spConfig,...saved};
-  }catch(e){}
-  if(!spConfig.siteUrl)spConfig.siteUrl=deriveSharePointSiteUrl();
-}
-
-function saveSharePointConfig(){
-  localStorage.setItem("aava_sp_single_list_config",JSON.stringify(spConfig,null,2));
-}
-
-function spApi(path){
-  return `${spConfig.siteUrl}/_api/${path}`;
-}
-
-async function spDigest(){
-  const res=await fetch(spApi("contextinfo"),{
-    method:"POST",
-    headers:{"Accept":"application/json;odata=nometadata"}
-  });
-  if(!res.ok)throw new Error(await res.text());
-  const json=await res.json();
-  return json.FormDigestValue;
-}
-
-async function spGet(path){
-  const res=await fetch(spApi(path),{
-    headers:{"Accept":"application/json;odata=nometadata"}
-  });
-  if(!res.ok)throw new Error(await res.text());
-  return res.json();
-}
-
-async function spPost(path,body){
-  const digest=await spDigest();
-  const res=await fetch(spApi(path),{
-    method:"POST",
-    headers:{
-      "Accept":"application/json;odata=nometadata",
-      "Content-Type":"application/json;odata=nometadata",
-      "X-RequestDigest":digest
-    },
-    body:JSON.stringify(body)
-  });
-  if(!res.ok)throw new Error(await res.text());
-  return res.json().catch(()=>({}));
-}
-
-async function spMerge(path,body){
-  const digest=await spDigest();
-  const res=await fetch(spApi(path),{
-    method:"POST",
-    headers:{
-      "Accept":"application/json;odata=nometadata",
-      "Content-Type":"application/json;odata=nometadata",
-      "X-RequestDigest":digest,
-      "IF-MATCH":"*",
-      "X-HTTP-Method":"MERGE"
-    },
-    body:JSON.stringify(body)
-  });
-  if(!res.ok)throw new Error(await res.text());
-}
-
-function escapeOData(value){
-  return String(value).replaceAll("'","''");
-}
-
-async function findSharePointDataItem(){
-  const title=escapeOData(spConfig.itemTitle);
-  const list=escapeOData(spConfig.listName);
-  const result=await spGet(`web/lists/getbytitle('${list}')/items?$filter=Title eq '${title}'&$top=1`);
-  const item=(result.value||[])[0];
-  return item||null;
-}
-
-async function loadDataFromSharePoint(){
-  applySharePointConfig(false);
-  if(!spConfig.enabled)throw new Error("SharePoint mode is disabled.");
-  const item=await findSharePointDataItem();
-  if(!item){
-    spStatus=`Connected. No data item found yet in "${spConfig.listName}". Use "Save to SharePoint" once.`;
-    spReady=true;
-    renderSharePointPanel();
-    return;
-  }
-  spItemId=item.Id;
-  if(!item.JsonData)throw new Error("JsonData column is empty.");
-  data=normalize(JSON.parse(item.JsonData));
-  ensureStatusColors();
-  spReady=true;
-  spStatus=`Loaded from SharePoint item #${spItemId}`;
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(data,null,2));
-  activeId="global";
-  loadSharePointConfig();
-render();
-if(spConfig.enabled&&spConfig.siteUrl){loadDataFromSharePoint().catch(err=>{console.error(err);spStatus="SharePoint auto-load failed. Check config/list/permissions.";renderSharePointPanel();});}
-}
-
-async function saveDataToSharePoint(){
-  applySharePointConfig(false);
-  if(!spConfig.enabled)return;
-  const list=escapeOData(spConfig.listName);
-  const body={
-    Title:spConfig.itemTitle,
-    JsonData:JSON.stringify(data)
-  };
-  if(!spItemId){
-    const item=await findSharePointDataItem();
-    if(item)spItemId=item.Id;
-  }
-  if(spItemId){
-    await spMerge(`web/lists/getbytitle('${list}')/items(${spItemId})`,body);
-  }else{
-    const created=await spPost(`web/lists/getbytitle('${list}')/items`,body);
-    spItemId=created.Id;
-  }
-  spReady=true;
-  spStatus=`Saved to SharePoint at ${new Date().toLocaleTimeString()}`;
-  renderSharePointPanel();
-}
-
-function scheduleSharePointSave(){
-  if(!spConfig.enabled||!spReady)return;
-  clearTimeout(spSaveTimer);
-  spSaveTimer=setTimeout(()=>{
-    saveDataToSharePoint().catch(err=>{
-      console.error(err);
-      spStatus="SharePoint autosave failed. Local data is still saved.";
-      renderSharePointPanel();
+  if(!d)d=defaultData();
+  if(!Array.isArray(d.owners))d.owners=[];
+  if(!Array.isArray(d.statuses))d.statuses=[...DEFAULT_STATUSES];
+  if(!d.statusColors)d.statusColors={};
+  if(!Array.isArray(d.workstreams))d.workstreams=[];
+  d.statuses.forEach(s=>{if(!d.statusColors[s])d.statusColors[s]=randomColor()});
+  d.workstreams.forEach(w=>{
+    if(!w.mode)w.mode="presentation";
+    if(!Array.isArray(w.items))w.items=Array.isArray(w.tasks)?w.tasks.map(t=>({...t,type:"task"})):[];
+    delete w.tasks;
+    w.items.forEach((it,i)=>{
+      if(!it.id)it.id=uid(it.type==="milestone"?"milestone":"task");
+      if(!it.type)it.type="task";
+      if(!it.number)it.number=i+1;
+      if(!it.createdAt)it.createdAt=todayISO();
+      it.duration=Number(it.duration||0);
+      it.endDate=addDays(it.createdAt,it.duration);
+      if(!it.status)it.status=d.statuses[0]||"Not started";
+      if(!d.statuses.includes(it.status)){d.statuses.push(it.status);d.statusColors[it.status]=randomColor()}
+      if(it.owner&&!d.owners.includes(it.owner))d.owners.push(it.owner);
+      if(!Array.isArray(it.dependencies))it.dependencies=[];
+      it.dependencies=it.dependencies.filter(depId=>d.workstreams.some(ww=>(ww.items||[]).some(x=>x.id===depId&&x.type==="milestone")));
+      if(it.type==="milestone")it.parentId="";
+      if(it.type==="task")it.parentId=it.parentId||"";
     });
-  },900);
+    w.items.filter(x=>x.type==="task").forEach(t=>assignTaskToMilestoneFromDependency(w,t));
+    w.items.filter(x=>x.type==="milestone").forEach(m=>recalcMilestone(w,m.id));
+  });
+  return d;
+}
+function loadCache(){try{const raw=localStorage.getItem(STORAGE_KEY);if(raw)return normalize(JSON.parse(raw))}catch(e){}return normalize(defaultData())}
+function saveCache(){localStorage.setItem(STORAGE_KEY,JSON.stringify(data,null,2))}
+function getWorkstream(){return data.workstreams.find(w=>w.id===activeId)}
+function getItems(w){return w&&Array.isArray(w.items)?w.items:[]}
+function getMilestones(w){return getItems(w).filter(x=>x.type==="milestone")}
+function getTasks(w){return getItems(w).filter(x=>x.type==="task")}
+function nextNum(w){return getItems(w).length?Math.max(...getItems(w).map(x=>Number(x.number)||0))+1:1}
+
+function blobUrl(){
+  const clean=blobConfig.containerSasUrl.trim();
+  const q=clean.indexOf("?");
+  const base=(q>=0?clean.slice(0,q):clean).replace(/\/$/,"");
+  const query=q>=0?clean.slice(q+1):"";
+  return base+"/"+encodeURIComponent(blobConfig.blobName)+"?"+query;
+}
+function blobReadUrl(){return blobUrl()+"&cacheBust="+Date.now()}
+async function loadFromBlob(){
+  try{
+    const res=await fetch(blobReadUrl(),{method:"GET",headers:{"Accept":"application/json"}});
+    if(res.status===404){blobReady=true;blobStatus="No data file yet. Click Save to create it.";render();return}
+    if(!res.ok)throw new Error(await res.text());
+    data=normalize(await res.json());
+    saveCache();
+    activeId="global";globalMode="presentation";editingItemId=null;
+    blobReady=true;blobStatus="Data loaded · "+new Date().toLocaleTimeString();
+    render();
+  }catch(e){console.error(e);blobStatus="Data load failed. Check SAS, CORS and file name.";renderBlobPanel()}
+}
+async function saveToBlob(){
+  try{
+    normalize(data);
+    const res=await fetch(blobUrl(),{method:"PUT",headers:{"x-ms-blob-type":"BlockBlob","Content-Type":"application/json"},body:JSON.stringify(data,null,2)});
+    if(!res.ok)throw new Error(await res.text());
+    blobReady=true;blobStatus="Data saved · "+new Date().toLocaleTimeString();
+    renderBlobPanel();
+  }catch(e){console.error(e);blobStatus="Data save failed. Local cache is still saved.";renderBlobPanel()}
+}
+function persist(){saveCache();clearTimeout(saveTimer);saveTimer=setTimeout(saveToBlob,800)}
+function renderBlobPanel(){
+  const el=document.getElementById("dataStatus");if(!el)return;
+  el.className="data-status "+(blobReady?"ok":"bad");
+  el.textContent=blobStatus;
 }
 
-function applySharePointConfig(shouldRender=true){
-  const enabled=document.getElementById("spEnabled");
-  if(enabled){
-    spConfig.enabled=enabled.value==="true";
-    spConfig.siteUrl=document.getElementById("spSiteUrl").value.trim();
-    spConfig.listName=document.getElementById("spListName").value.trim();
-    spConfig.itemTitle=document.getElementById("spItemTitle").value.trim();
-  }
-  saveSharePointConfig();
-  if(shouldRender){
-    spStatus="SharePoint configuration saved.";
-    renderSharePointPanel();
-  }
-}
-
-function renderSharePointPanel(){
-  const el=document.getElementById("spPanel");
-  if(!el)return;
-  el.innerHTML=`
-    <h3>SharePoint List backend</h3>
-    <p class="hint">Use one SharePoint List as the shared backend for all workstreams. Required columns: <b>Title</b> and <b>JsonData</b> (Multiple lines of text, plain text).</p>
-    <div class="sp-grid">
-      <div class="field">
-        <label>Mode</label>
-        <select id="spEnabled">
-          <option value="false" ${!spConfig.enabled?"selected":""}>Local only</option>
-          <option value="true" ${spConfig.enabled?"selected":""}>SharePoint List</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>SharePoint site URL</label>
-        <input id="spSiteUrl" value="${esc(spConfig.siteUrl||"")}" placeholder="https://company.sharepoint.com/sites/site">
-      </div>
-      <div class="field">
-        <label>List name</label>
-        <input id="spListName" value="${esc(spConfig.listName)}">
-      </div>
-      <div class="field">
-        <label>Item title</label>
-        <input id="spItemTitle" value="${esc(spConfig.itemTitle)}">
-      </div>
-    </div>
-    <div class="actions" style="margin-top:16px">
-      <button class="primary" onclick="applySharePointConfig()">Save config</button>
-      <button onclick="loadDataFromSharePoint()">Load from SharePoint</button>
-      <button onclick="saveDataToSharePoint()">Save to SharePoint</button>
-    </div>
-    <p class="${spReady?"sp-ok":"sp-bad"}">${esc(spStatus)}</p>
-  `;
-}
-
-function render(){save();renderSharePointPanel();renderTabs();renderPanel()}
+function render(){saveCache();renderBlobPanel();renderTabs();renderPanel()}
 function renderTabs(){
   const tabs=document.getElementById("tabs");tabs.innerHTML="";
-  const g=document.createElement("button");g.className=`tab global-tab ${activeId==="global"?"active":""}`;g.textContent="Global";g.onclick=()=>{activeId="global";globalMode="presentation";editingTaskId=null;render()};tabs.appendChild(g);
-  data.workstreams.forEach(w=>{const b=document.createElement("button");b.className=`tab ${w.id===activeId?"active":""}`;b.textContent=w.name;b.onclick=()=>{activeId=w.id;editingTaskId=null;taskFilters={statuses:[],owners:[]};w.mode='presentation';render()};tabs.appendChild(b)})
+  const g=document.createElement("button");g.className="tab global-tab "+(activeId==="global"?"active":"");g.textContent="Global";g.onclick=()=>{activeId="global";globalMode="presentation";editingItemId=null;render()};tabs.appendChild(g);
+  data.workstreams.forEach(w=>{const b=document.createElement("button");b.className="tab "+(w.id===activeId?"active":"");b.textContent=w.name;b.onclick=()=>{activeId=w.id;w.mode="presentation";editingItemId=null;render()};tabs.appendChild(b)});
 }
-function renderPanel(){document.getElementById("panel").innerHTML=activeId==="global"?renderGlobal():renderWorkstream();if(activeId!=="global")populateTaskForm()}
-function createWorkstream(){const name=prompt("New workstream name:");if(!name?.trim())return;const w={id:uid("workstream"),name:name.trim(),mode:"presentation",tasks:[]};data.workstreams.push(w);activeId=w.id;render()}
-function renderWorkstream(){const w=getWorkstream();if(!w)return `<div class="card empty">No workstreams yet.</div>`;return `<section class="card"><h2>${esc(w.name)}</h2><div class="mode-switch"><button class="${w.mode==="presentation"?"primary":""}" onclick="setMode('presentation')">Presentation mode</button><button class="${w.mode==="edit"?"primary":""}" onclick="setMode('edit')">Edit mode</button></div>${w.mode==="edit"?editActions():`<p class="hint">Read-only workstream view. Tasks and Gantt are visible; editing controls are hidden.</p>`}</section>${w.mode==="edit"?renderEdit(w):renderPresentation(w)}`}
-function editActions(){return `<div class="workstream-actions"><button onclick="renameWorkstream()">Rename workstream</button><button class="danger" onclick="deleteWorkstream()">Delete workstream</button><button onclick="openOwnersModal()">Manage owners</button><button onclick="openStatusModal()">Manage status</button>
-<button onclick="exportWorkstreamJSON()">⬇️ Export workstream data</button>
-<button onclick="document.getElementById('importWorkstreamFile').click()">⬆️ Import workstream data</button></div>`}
-function setMode(m){getWorkstream().mode=m;editingTaskId=null;render()}
-function renameWorkstream(){const w=getWorkstream();const n=prompt("New workstream name:",w.name);if(!n?.trim())return;w.name=n.trim();render()}
-function deleteWorkstream(){const w=getWorkstream();if(!confirm(`Delete workstream "${w.name}"?`))return;data.workstreams=data.workstreams.filter(x=>x.id!==w.id);activeId="global";render()}
-function renderEdit(w){return `${renderTaskForm(w)}<section id="backlogSection" class="card"><div class="section-title-row"><h3>Backlog</h3><button class="maximize-btn" onclick="toggleMaximize('backlogSection')" title="Expand"></button></div>${renderTaskFilters()}${renderTasksTable(w,true)}</section><section id="ganttSection" class="card"><div class="section-title-row"><h3>Gantt</h3><button class="maximize-btn" onclick="toggleMaximize('ganttSection')" title="Expand"></button></div>${renderGantt(w)}</section>`}
-function renderPresentation(w){return `<section id="backlogSection" class="card"><div class="section-title-row"><h3>Backlog</h3><button class="maximize-btn" onclick="toggleMaximize('backlogSection')" title="Expand"></button></div>${renderTaskFilters()}${renderTasksTable(w,false)}</section><section id="ganttSection" class="card"><div class="section-title-row"><h3>Gantt</h3><button class="maximize-btn" onclick="toggleMaximize('ganttSection')" title="Expand"></button></div>${renderGantt(w)}</section>`}
-function renderTaskFilters(){return `<div class="filter-panel"><div class="filter-box"><div class="filter-title">Status filter</div><div class="chips">${data.statuses.map(s=>`<label class="chip ${taskFilters.statuses.includes(s)?"selected":""}"><input type="checkbox" ${taskFilters.statuses.includes(s)?"checked":""} onchange="toggleArray(taskFilters.statuses,'${esc(s)}',this.checked);render()">${esc(s)}</label>`).join("")}</div></div><div class="filter-box"><div class="filter-title">Owner filter</div><div class="chips">${data.owners.map(o=>`<label class="chip ${taskFilters.owners.includes(o)?"selected":""}"><input type="checkbox" ${taskFilters.owners.includes(o)?"checked":""} onchange="toggleArray(taskFilters.owners,'${esc(o)}',this.checked);render()">${esc(o)}</label>`).join("")}</div></div></div><div class="filter-help">Select multiple values. No selection = all tasks.</div>`}
-function toggleArray(arr,val,checked){const i=arr.indexOf(val);if(checked&&i<0)arr.push(val);if(!checked&&i>=0)arr.splice(i,1)}
+function renderPanel(){document.getElementById("panel").innerHTML=activeId==="global"?renderGlobal():renderWorkstream();if(activeId!=="global")populateForm()}
 
-function renderTaskForm(w){const t=editingTaskId?w.tasks.find(x=>x.id===editingTaskId):null;return `<section class="card"><h3>${t?"Edit task":"Add task"}</h3><form onsubmit="saveTask(event)"><div class="grid"><div class="field"><label>Task name *</label><input id="taskName" value="${esc(t?.name||"")}" required></div><div class="field"><label>Creation date *</label><input id="taskCreatedAt" type="date" value="${t?.createdAt||todayISO()}" required></div><div class="field"><label>Duration in days *</label><input id="taskDuration" type="number" min="0" value="${t?.duration??1}" required></div><div class="field"><label>Calculated end date</label><input id="taskEndDate" disabled></div><div class="field"><label>Status</label><select id="taskStatus">${data.statuses.map(s=>`<option ${t?.status===s?"selected":""}>${esc(s)}</option>`).join("")}</select></div><div class="field"><label>Owner</label><select id="taskOwner">${data.owners.map(o=>`<option ${t?.owner===o?"selected":""}>${esc(o)}</option>`).join("")}</select></div><div class="field wide"><label>Dependencies</label><select id="taskDependencies" multiple size="4">${w.tasks.filter(x=>x.id!==editingTaskId).map(x=>`<option value="${x.id}" ${(t?.dependencies||[]).includes(x.id)?"selected":""}>#${x.number} ${esc(x.name)}</option>`).join("")}</select></div><div class="field full"><label>Long description</label><textarea id="taskDescription">${esc(t?.description||"")}</textarea></div></div><div class="actions" style="margin-top:16px"><button class="primary" type="submit">${t?"Save changes":"Add task"}</button>${t?`<button type="button" onclick="editingTaskId=null;render()">Cancel editing</button>`:""}</div></form></section>`}
-function populateTaskForm(){const a=document.getElementById("taskCreatedAt"),d=document.getElementById("taskDuration"),e=document.getElementById("taskEndDate");if(!a||!d||!e)return;const upd=()=>{e.value=a.value?addDays(a.value,Number(d.value||0)):""};a.oninput=upd;d.oninput=upd;upd()}
-function nextNum(w){return w.tasks.length?Math.max(...w.tasks.map(t=>t.number||0))+1:1}
-function saveTask(ev){ev.preventDefault();const w=getWorkstream();const id=editingTaskId||uid("task");const task={id,number:editingTaskId?w.tasks.find(t=>t.id===editingTaskId).number:nextNum(w),name:document.getElementById("taskName").value.trim(),description:document.getElementById("taskDescription").value.trim(),createdAt:document.getElementById("taskCreatedAt").value,duration:Number(document.getElementById("taskDuration").value),status:document.getElementById("taskStatus").value,owner:document.getElementById("taskOwner").value,dependencies:Array.from(document.getElementById("taskDependencies").selectedOptions).map(o=>o.value)};task.endDate=addDays(task.createdAt,task.duration);if(!task.name)return alert("Task name is required.");if(task.duration<0||Number.isNaN(task.duration))return alert("Duration must be valid.");if(hasCycle(w,task))return alert("Circular dependencies are not allowed.");if(editingTaskId)w.tasks[w.tasks.findIndex(t=>t.id===editingTaskId)]=task;else w.tasks.push(task);editingTaskId=null;render()}
-function hasCycle(w,candidate){const map=new Map(w.tasks.map(t=>[t.id,t]));map.set(candidate.id,candidate);function visit(id,path=new Set()){if(path.has(id))return true;const t=map.get(id);if(!t)return false;path.add(id);return (t.dependencies||[]).some(dep=>visit(dep,new Set(path)))}return visit(candidate.id)}
-function editTask(id){editingTaskId=id;getWorkstream().mode="edit";
-function toggleMaximize(id){
-  const el=document.getElementById(id);
-  if(!el)return;
-  let backdrop=document.getElementById("maximizeBackdrop");
-  if(!backdrop){
-    backdrop=document.createElement("div");
-    backdrop.id="maximizeBackdrop";
-    backdrop.className="maximize-backdrop";
-    backdrop.onclick=()=>closeMaximize();
-    document.body.appendChild(backdrop);
-  }
-  if(el.classList.contains("maximized-card")){
-    closeMaximize();
-    return;
-  }
-  closeMaximize();
-  el.classList.add("maximized-card");
-  backdrop.style.display="block";
+function createWorkstream(){const name=prompt("New workstream name:");if(!name||!name.trim())return;const w={id:uid("workstream"),name:name.trim(),mode:"presentation",items:[]};data.workstreams.push(w);activeId=w.id;persist();render()}
+function renderWorkstream(){
+  const w=getWorkstream();if(!w)return '<div class="card empty">No workstreams yet.</div>';
+  return w.mode==="edit"?renderEdit(w):renderPresentation(w);
 }
-function closeMaximize(){
-  document.querySelectorAll(".maximized-card").forEach(el=>el.classList.remove("maximized-card"));
-  const backdrop=document.getElementById("maximizeBackdrop");
-  if(backdrop)backdrop.style.display="none";
+function editActions(){return '<div class="workstream-actions"><button onclick="renameWorkstream()">Rename workstream</button><button class="danger" onclick="deleteWorkstream()">Delete workstream</button><button onclick="openOwnersModal()">Manage owners</button><button onclick="openStatusModal()">Manage status</button><button onclick="exportWorkstreamJSON()">⬇️ Export workstream data</button><button onclick="document.getElementById(\'importWorkstreamFile\').click()">⬆️ Import workstream data</button></div>'}
+function setMode(m){getWorkstream().mode=m;editingItemId=null;persist();render()}
+function renameWorkstream(){const w=getWorkstream();const n=prompt("New workstream name:",w.name);if(!n||!n.trim())return;w.name=n.trim();persist();render()}
+function deleteWorkstream(){const w=getWorkstream();if(!confirm('Delete workstream "'+w.name+'"?'))return;data.workstreams=data.workstreams.filter(x=>x.id!==w.id);activeId="global";persist();render()}
+function renderEdit(w){return renderForm(w)+'<section id="backlogSection" class="card"><div class="section-title-row"><div class="title-actions"><h3>Backlog</h3><button class="edit-backlog-btn" onclick="setMode(\'presentation\')">Close edit</button></div><button class="maximize-btn" onclick="toggleMaximize(\'backlogSection\')" title="Expand"></button></div>'+renderBacklog(w,true)+'</section><section id="ganttSection" class="card"><div class="section-title-row"><h3>Gantt</h3><button class="maximize-btn" onclick="toggleMaximize(\'ganttSection\')" title="Expand"></button></div>'+renderGantt(w)+'</section>'}
+function renderPresentation(w){return '<section id="backlogSection" class="card"><div class="section-title-row"><div class="title-actions"><h3>Backlog</h3><button class="edit-backlog-btn" onclick="setMode(\'edit\')">Edit</button></div><button class="maximize-btn" onclick="toggleMaximize(\'backlogSection\')" title="Expand"></button></div>'+renderBacklog(w,false)+'</section><section id="ganttSection" class="card"><div class="section-title-row"><h3>Gantt</h3><button class="maximize-btn" onclick="toggleMaximize(\'ganttSection\')" title="Expand"></button></div>'+renderGantt(w)+'</section>'}
+
+function renderForm(w){
+  const it=editingItemId?getItems(w).find(x=>x.id===editingItemId):null;
+  const type=it?it.type:"task";
+  return '<section class="card"><h3>'+(it?'Edit '+type:'Add milestone / task')+'</h3><form onsubmit="saveItem(event)"><div class="grid">'+
+  '<div class="field"><label>Type *</label><select id="itemType" onchange="toggleParentField()"><option value="task" '+(type==="task"?"selected":"")+'>Task</option><option value="milestone" '+(type==="milestone"?"selected":"")+'>Milestone</option></select></div>'+
+  '<div class="field"><label>Name *</label><input id="itemName" value="'+esc(it?.name||"")+'" required></div>'+
+  '<div class="field"><label>Creation date *</label><input id="itemCreatedAt" type="date" value="'+(it?.createdAt||todayISO())+'" required></div>'+
+  '<div class="field"><label>Duration in days *</label><input id="itemDuration" type="number" min="0" value="'+(it?.duration??1)+'" required></div>'+
+  '<div class="field"><label>Calculated end date</label><input id="itemEndDate" disabled></div>'+
+  '<div class="field"><label>Status</label><select id="itemStatus">'+data.statuses.map(s=>'<option '+(it?.status===s?"selected":"")+'>'+esc(s)+'</option>').join("")+'</select></div>'+
+  '<div class="field"><label>Owner</label><select id="itemOwner"><option value=""></option>'+data.owners.map(o=>'<option '+(it?.owner===o?"selected":"")+'>'+esc(o)+'</option>').join("")+'</select></div>'+
+  '<div class="field" id="parentField"><label>Parent milestone</label><select id="itemParentId"><option value="">Select milestone</option>'+getMilestones(w).filter(m=>m.id!==editingItemId).map(m=>'<option value="'+m.id+'" '+(it?.parentId===m.id?"selected":"")+'>#'+m.number+' '+esc(m.name)+'</option>').join("")+'</select></div>'+
+  '<div class="field wide"><label>Dependencies</label><select id="itemDependencies" multiple size="4">'+getMilestones(w).filter(x=>x.id!==editingItemId&&!x.isVirtual).map(x=>'<option value="'+x.id+'" '+((it?.dependencies||[]).includes(x.id)?"selected":"")+'>#'+x.number+' [M] '+esc(x.name)+'</option>').join("")+'</select></div>'+
+  '<div class="field full"><label>Long description</label><textarea id="itemDescription">'+esc(it?.description||"")+'</textarea></div>'+
+  '</div><div class="actions" style="margin-top:16px"><button class="primary" type="submit">'+(it?"Save changes":"Add item")+'</button>'+(it?'<button type="button" onclick="editingItemId=null;render()">Cancel editing</button>':"")+'</div></form></section>';
 }
+function populateForm(){const a=document.getElementById("itemCreatedAt"),d=document.getElementById("itemDuration"),e=document.getElementById("itemEndDate");if(!a||!d||!e)return;const upd=()=>{e.value=a.value?addDays(a.value,Number(d.value||0)):""};a.oninput=upd;d.oninput=upd;upd();toggleParentField()}
+function toggleParentField(){const type=document.getElementById("itemType")?.value;const field=document.getElementById("parentField");if(field)field.style.display=type==="milestone"?"none":"flex"}
+
+function saveItem(ev){
+  ev.preventDefault();
+  const w=getWorkstream();
+  const type=document.getElementById("itemType").value;
+  const id=editingItemId||uid(type);
+  const item={
+    id,type,
+    number:editingItemId?getItems(w).find(x=>x.id===editingItemId).number:nextNum(w),
+    name:document.getElementById("itemName").value.trim(),
+    description:document.getElementById("itemDescription").value.trim(),
+    createdAt:document.getElementById("itemCreatedAt").value,
+    duration:Number(document.getElementById("itemDuration").value),
+    status:document.getElementById("itemStatus").value,
+    owner:document.getElementById("itemOwner").value,
+    parentId:type==="task"?document.getElementById("itemParentId").value:"",
+    dependencies:Array.from(document.getElementById("itemDependencies").selectedOptions).map(o=>o.value).filter(id=>getItems(w).find(x=>x.id===id&&x.type==="milestone"))
+  };
+  item.endDate=addDays(item.createdAt,item.duration);
+  if(!item.name)return alert("Name is required.");
+  if(item.duration<0||Number.isNaN(item.duration))return alert("Duration must be valid.");
+  if(type==="task"&&!item.parentId){
+    const depMilestone=item.dependencies.map(id=>getItems(w).find(x=>x.id===id)).find(x=>x&&x.type==="milestone");
+    if(depMilestone)item.parentId=depMilestone.id;
+  }
+  if(type==="task"&&!item.parentId)return alert("Every task must be assigned to a parent milestone or depend on a milestone.");
+  if(hasCycle(w,item))return alert("Circular dependencies are not allowed.");
+  if(editingItemId)w.items[w.items.findIndex(x=>x.id===editingItemId)]=item;else w.items.push(item);
+  getTasks(w).forEach(t=>assignTaskToMilestoneFromDependency(w,t));
+  getMilestones(w).forEach(m=>recalcMilestone(w,m.id));
+  editingItemId=null;persist();render();
+}
+function hasCycle(w,candidate){const map=new Map(getItems(w).map(t=>[t.id,t]));map.set(candidate.id,candidate);function visit(id,path=new Set()){if(path.has(id))return true;const t=map.get(id);if(!t)return false;path.add(id);return (t.dependencies||[]).some(dep=>visit(dep,new Set(path)))}return visit(candidate.id)}
+function getParentMilestoneId(w,item){if(!item||item.type!=="task")return "";if(item.parentId)return item.parentId;const dep=(item.dependencies||[]).map(id=>getItems(w).find(x=>x.id===id)).find(x=>x&&x.type==="milestone");return dep?dep.id:""}
+function assignTaskToMilestoneFromDependency(w,item){if(!item||item.type!=="task")return;const parent=getParentMilestoneId(w,item);if(parent)item.parentId=parent}
+function recalcMilestone(w,id){const m=getItems(w).find(x=>x.id===id&&x.type==="milestone");if(!m)return;const children=getTasks(w).filter(t=>getParentMilestoneId(w,t)===id);if(!children.length)return;m.createdAt=children.reduce((min,t)=>t.createdAt<min?t.createdAt:min,children[0].createdAt);m.endDate=children.reduce((max,t)=>t.endDate>max?t.endDate:max,children[0].endDate);m.duration=Math.max(daysBetween(m.createdAt,m.endDate),0)}
+function editItem(id){editingItemId=id;getWorkstream().mode="edit";render();scrollTo({top:0,behavior:"smooth"})}
+function deleteItem(id){const w=getWorkstream();const it=getItems(w).find(x=>x.id===id);if(!it)return;if(!confirm('Delete '+it.type+' "'+it.name+'"?'))return;if(it.type==="milestone"){const children=getTasks(w).filter(t=>getParentMilestoneId(w,t)===id);if(children.length){alert("This milestone has "+children.length+" child tasks. Move or delete them first.");return}}w.items=w.items.filter(x=>x.id!==id);w.items.forEach(x=>x.dependencies=(x.dependencies||[]).filter(d=>d!==id));persist();render()}
+function orderedItems(w){const milestones=getMilestones(w).sort((a,b)=>a.createdAt.localeCompare(b.createdAt));const tasks=getTasks(w);tasks.forEach(t=>assignTaskToMilestoneFromDependency(w,t));const result=[];milestones.forEach(m=>{result.push(m);tasks.filter(t=>getParentMilestoneId(w,t)===m.id).sort((a,b)=>a.createdAt.localeCompare(b.createdAt)).forEach(t=>result.push(t))});const orphans=tasks.filter(t=>!getParentMilestoneId(w,t));if(orphans.length){result.push({id:"orphan_group",type:"milestone",number:"-",name:"Unassigned tasks",description:"Tasks without milestone",createdAt:todayISO(),duration:0,endDate:todayISO(),status:data.statuses[0]||"Not started",owner:"",dependencies:[],isVirtual:true});orphans.forEach(t=>result.push(t))}return result}
+
+function renderBacklog(w,editable){const items=orderedItems(w);if(!items.length)return '<div class="empty">No milestones or tasks to display.</div>';return '<div class="table-wrap"><table><thead><tr><th>ID</th><th>Type</th><th>Name</th><th>Description</th><th>Start</th><th>Duration</th><th>End</th><th>Status</th><th>Owner</th><th>Dependencies</th>'+(editable?'<th>Actions</th>':"")+'</tr></thead><tbody>'+items.map(it=>rowHtml(w,it,editable)).join("")+'</tbody></table></div>'}
+function rowHtml(w,it,editable){const parent=getItems(w).find(x=>x.id===getParentMilestoneId(w,it));return '<tr class="'+(it.type==="milestone"?"milestone-row":"")+'"><td>#'+it.number+'</td><td><span class="type-pill '+(it.type==="milestone"?"milestone":"")+'">'+it.type+'</span></td><td class="'+(it.type==="task"&&parent?"child-cell":"")+'"><strong>'+(it.type==="task"&&parent?"↳ ":"")+esc(it.name)+'</strong></td><td>'+esc(it.description)+'</td><td>'+it.createdAt+'</td><td>'+it.duration+' days</td><td>'+it.endDate+'</td><td><span class="badge" style="background:'+(data.statusColors[it.status]||"#e5e7eb")+';color:#111827">'+esc(it.status)+'</span></td><td>'+esc(it.owner)+'</td><td>'+deps(w,it)+'</td>'+(editable?'<td>'+(it.isVirtual?'-':'<div class="actions"><button onclick="editItem(\''+it.id+'\')">Edit</button><button class="danger" onclick="deleteItem(\''+it.id+'\')">Delete</button></div>')+'</td>':"")+'</tr>'}
+function deps(w,it){const d=(it.dependencies||[]).map(id=>getItems(w).find(x=>x.id===id)).filter(Boolean).map(x=>'#'+x.number+' '+(x.type==="milestone"?"[M]":"[T]")+' '+esc(x.name));return d.length?d.join("<br>"):"-"}
+
+function renderGantt(w){const items=orderedItems(w);if(!items.length)return '<div class="empty">No items available to generate the Gantt.</div>';const min=items.reduce((m,t)=>t.createdAt<m?t.createdAt:m,items[0].createdAt);const max=items.reduce((m,t)=>t.endDate>m?t.endDate:m,items[0].endDate);const days=Math.max(daysBetween(min,max),1)+1;const dw=38;const ticks=Array.from({length:days},(_,i)=>'<div class="tick">'+addDays(min,i).slice(5)+'</div>').join("");return '<div class="gantt"><div class="gantt-grid"><div class="gantt-header"><div>Milestone / Task</div><div class="timeline" style="grid-template-columns:repeat('+days+','+dw+'px)">'+ticks+'</div></div>'+items.map(it=>{const parent=getItems(w).find(x=>x.id===getParentMilestoneId(w,it));const left=daysBetween(min,it.createdAt)*dw;const width=Math.max(Number(it.duration),1)*dw;return '<div class="gantt-row"><div class="gantt-label"><strong>'+(it.type==="task"&&parent?"↳ ":"")+'#'+it.number+' '+esc(it.name)+'</strong><br>'+it.type+(parent?' · parent: '+esc(parent.name):"")+'<br>'+esc(it.owner)+' · '+it.createdAt+' → '+it.endDate+'<br><span class="badge" style="background:'+(data.statusColors[it.status]||"#e5e7eb")+';color:#111827">'+esc(it.status)+'</span><div class="small">Depends on: '+deps(w,it).replaceAll("<br>",", ")+'</div></div><div class="bar-area" style="width:'+(days*dw)+'px"><div class="bar '+(it.type==="milestone"?"milestone":"")+'" style="left:'+left+'px;width:'+width+'px">'+esc(it.name)+'</div></div></div>'}).join("")+'</div></div>'}
+
+function allItems(){return data.workstreams.flatMap(w=>getItems(w).map(t=>({...t,workstreamId:w.id,workstreamName:w.name})))}
+function filteredGlobal(){let items=allItems();if(globalFilters.workstreams.length)items=items.filter(t=>globalFilters.workstreams.includes(t.workstreamId));if(globalFilters.owners.length)items=items.filter(t=>globalFilters.owners.includes(t.owner));if(globalFilters.statuses.length)items=items.filter(t=>globalFilters.statuses.includes(t.status));return items}
+function renderGlobal(){return '<section class="card"><h3>Global filters</h3><div class="filter-grid"><div class="filter-box"><div class="filter-title">Workstream</div><div class="chips">'+data.workstreams.map(w=>'<label class="chip '+(globalFilters.workstreams.includes(w.id)?"selected":"")+'"><input type="checkbox" '+(globalFilters.workstreams.includes(w.id)?"checked":"")+' onchange="toggleArray(globalFilters.workstreams,\''+w.id+'\',this.checked);render()">'+esc(w.name)+'</label>').join("")+'</div></div><div class="filter-box"><div class="filter-title">Owner</div><select multiple class="multi-select" onchange="setGlobalSelect(\'owners\',this)">'+data.owners.map(o=>'<option value="'+esc(o)+'" '+(globalFilters.owners.includes(o)?"selected":"")+'>'+esc(o)+'</option>').join("")+'</select></div><div class="filter-box"><div class="filter-title">Status</div><select multiple class="multi-select" onchange="setGlobalSelect(\'statuses\',this)">'+data.statuses.map(s=>'<option value="'+esc(s)+'" '+(globalFilters.statuses.includes(s)?"selected":"")+'>'+esc(s)+'</option>').join("")+'</select></div></div></section>'}
+function toggleArray(arr,val,checked){const i=arr.indexOf(val);if(checked&&i<0)arr.push(val);if(!checked&&i>=0)arr.splice(i,1)}
+function setGlobalSelect(type,sel){globalFilters[type]=Array.from(sel.selectedOptions).map(o=>o.value);render()}
+function globalTable(items){if(!items.length)return '<div class="empty">No items match the selected filters.</div>';let rows="";data.workstreams.forEach(w=>{const group=items.filter(it=>it.workstreamId===w.id);if(!group.length)return;rows+='<tr class="global-workstream-row"><td colspan="10">Workstream: '+esc(w.name)+'</td></tr>';getMilestones(w).forEach(m=>{const showM=group.some(it=>it.id===m.id)||group.some(it=>it.type==="task"&&getParentMilestoneId(w,it)===m.id);if(!showM)return;rows+=globalRow(w,m,null);group.filter(it=>it.type==="task"&&getParentMilestoneId(w,it)===m.id).forEach(t=>rows+=globalRow(w,t,m))});const orphans=group.filter(it=>it.type==="task"&&!getParentMilestoneId(w,it));if(orphans.length){rows+='<tr class="milestone-row"><td>'+esc(w.name)+'</td><td>-</td><td><span class="type-pill milestone">milestone</span></td><td><strong>Unassigned tasks</strong></td><td>Tasks without milestone</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>';orphans.forEach(t=>rows+=globalRow(w,t,null))}});return '<div class="table-wrap"><table><thead><tr><th>Workstream</th><th>ID</th><th>Type</th><th>Name</th><th>Description</th><th>Start</th><th>Duration</th><th>End</th><th>Status</th><th>Owner</th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
+function globalRow(w,it,parentOverride){const parent=parentOverride||getItems(w).find(x=>x.id===getParentMilestoneId(w,it));return '<tr class="'+(it.type==="milestone"?"milestone-row":"")+'"><td>'+esc(w.name)+'</td><td>#'+it.number+'</td><td><span class="type-pill '+(it.type==="milestone"?"milestone":"")+'">'+it.type+'</span></td><td class="'+(it.type==="task"&&parent?"child-cell":"")+'">'+(it.type==="task"&&parent?"↳ ":"")+'<strong>'+esc(it.name)+'</strong></td><td>'+esc(it.description)+'</td><td>'+it.createdAt+'</td><td>'+it.duration+' days</td><td>'+it.endDate+'</td><td><span class="badge" style="background:'+(data.statusColors[it.status]||"#e5e7eb")+';color:#111827">'+esc(it.status)+'</span></td><td>'+esc(it.owner)+'</td></tr>'}
+
+function openOwnersModal(){renderOwners();document.getElementById("ownersModal").style.display="flex"}function openStatusModal(){renderStatuses();document.getElementById("statusModal").style.display="flex"}function closeModal(id){document.getElementById(id).style.display="none"}
+function renderOwners(){document.getElementById("ownersList").innerHTML=data.owners.map(o=>'<div class="row"><strong>'+esc(o)+'</strong><button class="danger" onclick="deleteOwner(\''+esc(o)+'\')">Delete</button></div>').join("")||'<div class="empty">No owners.</div>'}
+function addOwner(){const v=document.getElementById("newOwnerInput").value.trim();if(!v)return;if(data.owners.includes(v))return alert("Owner already exists.");data.owners.push(v);document.getElementById("newOwnerInput").value="";persist();renderOwners();render()}
+function deleteOwner(o){const used=data.workstreams.some(w=>getItems(w).some(t=>t.owner===o));if(used&&!confirm('Owner "'+o+'" is in use. Delete anyway?'))return;data.owners=data.owners.filter(x=>x!==o);data.workstreams.forEach(w=>getItems(w).forEach(t=>{if(t.owner===o)t.owner=""}));persist();renderOwners();render()}
+function renderStatuses(){document.getElementById("statusList").innerHTML=data.statuses.map(s=>'<div class="row"><strong>'+esc(s)+'</strong><input class="status-color" type="color" value="'+(data.statusColors[s]||"#e5e7eb")+'" onchange="changeStatusColor(\''+esc(s)+'\',this.value)"><input class="status-hex" value="'+(data.statusColors[s]||"#e5e7eb")+'" onchange="changeStatusColor(\''+esc(s)+'\',this.value)"><button class="danger" onclick="deleteStatus(\''+esc(s)+'\')">Delete</button></div>').join("")||'<div class="empty">No status values.</div>'}
+function addStatus(){const v=document.getElementById("newStatusInput").value.trim();if(!v)return;if(data.statuses.includes(v))return alert("Status already exists.");data.statuses.push(v);data.statusColors[v]=randomColor();document.getElementById("newStatusInput").value="";persist();renderStatuses();render()}
+function changeStatusColor(s,c){if(!/^#[0-9a-fA-F]{6}$/.test(c))return alert("Please enter a valid HEX color.");data.statusColors[s]=c;persist();render();renderStatuses()}
+function deleteStatus(s){const used=data.workstreams.some(w=>getItems(w).some(t=>t.status===s));if(used&&!confirm('Status "'+s+'" is in use. Items will move to another status. Continue?'))return;const fb=data.statuses.find(x=>x!==s)||"Not started";data.statuses=data.statuses.filter(x=>x!==s);delete data.statusColors[s];if(!data.statuses.length){data.statuses=[fb];data.statusColors[fb]=randomColor()}data.workstreams.forEach(w=>getItems(w).forEach(t=>{if(t.status===s)t.status=data.statuses[0]}));persist();renderStatuses();render()}
+
+function exportJSON(){const now=new Date();const hh=String(now.getHours()).padStart(2,"0");const mm=String(now.getMinutes()).padStart(2,"0");download("aava-scib-program-"+todayISO()+"-"+hh+mm+".json",JSON.stringify(data,null,2),"application/json")}
+function importJSON(e){const f=e.target.files[0];if(!f)return;if(!confirm("Importing will overwrite all data. Continue?"))return;const r=new FileReader();r.onload=ev=>{try{data=normalize(JSON.parse(ev.target.result));activeId="global";persist();render()}catch{alert("Invalid JSON file.")}};r.readAsText(f);e.target.value=""}
+function exportWorkstreamJSON(){const w=getWorkstream();const now=new Date();const hh=String(now.getHours()).padStart(2,"0");const mm=String(now.getMinutes()).padStart(2,"0");const safe=w.name.replace(/[^a-z0-9]+/gi,"-").toLowerCase();download("aava-scib-"+safe+"-"+todayISO()+"-"+hh+mm+".json",JSON.stringify({type:"workstream",sourceWorkstreamId:w.id,sourceWorkstreamName:w.name,workstream:{id:w.id,name:w.name,items:w.items}},null,2),"application/json")}
+function importWorkstreamJSON(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const obj=JSON.parse(ev.target.result);if(obj.type!=="workstream")throw new Error();const idx=data.workstreams.findIndex(w=>w.id===obj.sourceWorkstreamId);if(idx<0)return alert("Target workstream not found.");if(!confirm("This will replace workstream "+data.workstreams[idx].name+". Continue?"))return;data.workstreams[idx]=normalize({owners:data.owners,statuses:data.statuses,statusColors:data.statusColors,workstreams:[{...data.workstreams[idx],items:obj.workstream.items||[]}]}).workstreams[0];activeId=data.workstreams[idx].id;persist();render()}catch{alert("Invalid workstream JSON.")}};r.readAsText(f);e.target.value=""}
+function exportExcel(){const sheets=data.workstreams.map(w=>'<Worksheet ss:Name="'+esc(w.name).slice(0,31)+'"><Table><Row>'+["ID","Type","Name","Description","Start","Duration","End","Status","Owner","Dependencies"].map(h=>'<Cell><Data ss:Type="String">'+h+'</Data></Cell>').join("")+'</Row>'+orderedItems(w).map(it=>{const p=getItems(w).find(x=>x.id===getParentMilestoneId(w,it));return '<Row><Cell><Data ss:Type="String">#'+it.number+'</Data></Cell><Cell><Data ss:Type="String">'+it.type+'</Data></Cell><Cell><Data ss:Type="String">'+esc(it.name)+'</Data></Cell><Cell><Data ss:Type="String">'+esc(it.description)+'</Data></Cell><Cell><Data ss:Type="String">'+it.createdAt+'</Data></Cell><Cell><Data ss:Type="Number">'+it.duration+'</Data></Cell><Cell><Data ss:Type="String">'+it.endDate+'</Data></Cell><Cell><Data ss:Type="String">'+esc(it.status)+'</Data></Cell><Cell><Data ss:Type="String">'+esc(it.owner)+'</Data></Cell><Cell><Data ss:Type="String">'+deps(w,it).replaceAll("<br>",", ")+'</Data></Cell></Row>'}).join("")+'</Table></Worksheet>').join("");download("aava-scib-backlog-"+todayISO()+".xls",'<?xml version="1.0"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">'+sheets+'</Workbook>',"application/vnd.ms-excel")}
+function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
+
+function toggleMaximize(id){const el=document.getElementById(id);if(!el)return;let b=document.getElementById("maximizeBackdrop");if(!b){b=document.createElement("div");b.id="maximizeBackdrop";b.className="maximize-backdrop";b.onclick=closeMaximize;document.body.appendChild(b)}if(el.classList.contains("maximized-card")){closeMaximize();return}closeMaximize();el.classList.add("maximized-card");b.style.display="block"}
+function closeMaximize(){document.querySelectorAll(".maximized-card").forEach(el=>el.classList.remove("maximized-card"));const b=document.getElementById("maximizeBackdrop");if(b)b.style.display="none"}
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeMaximize()});
 
-render();scrollTo({top:0,behavior:"smooth"})}
-function deleteTask(id){const w=getWorkstream();const t=w.tasks.find(x=>x.id===id);if(!confirm(`Delete task "${t.name}"?`))return;w.tasks=w.tasks.filter(x=>x.id!==id);w.tasks.forEach(x=>x.dependencies=(x.dependencies||[]).filter(d=>d!==id));render()}
-
-function renderTasksTable(w,editable){let tasks=[...w.tasks];if(taskFilters.statuses.length)tasks=tasks.filter(t=>taskFilters.statuses.includes(t.status));if(taskFilters.owners.length)tasks=tasks.filter(t=>taskFilters.owners.includes(t.owner));tasks.sort((a,b)=>String(a[sortConfig.field]||"").localeCompare(String(b[sortConfig.field]||""))*(sortConfig.direction==="asc"?1:-1));if(!tasks.length)return `<div class="empty">No backlog items to display.</div>`;return `<div class="table-wrap"><table><thead><tr><th onclick="sortBy('number')">ID</th><th onclick="sortBy('name')">Task</th><th>Description</th><th onclick="sortBy('createdAt')">Start</th><th>Duration</th><th onclick="sortBy('endDate')">End</th><th onclick="sortBy('status')">Status</th><th onclick="sortBy('owner')">Owner</th><th>Dependencies</th>${editable?"<th>Actions</th>":""}</tr></thead><tbody>${tasks.map(t=>`<tr><td>#${t.number}</td><td><strong>${esc(t.name)}</strong></td><td>${esc(t.description)}</td><td>${t.createdAt}</td><td>${t.duration} days</td><td>${t.endDate}</td><td><span class="badge" style="background:${data.statusColors[t.status]||'#e5e7eb'};color:#111827">${esc(t.status)}</span></td><td>${esc(t.owner)}</td><td>${deps(w,t)}</td>${editable?`<td><div class="small-actions"><button onclick="editTask('${t.id}')">Edit</button><button class="danger" onclick="deleteTask('${t.id}')">Delete</button></div></td>`:""}</tr>`).join("")}</tbody></table></div>`}
-function sortBy(f){if(sortConfig.field===f)sortConfig.direction=sortConfig.direction==="asc"?"desc":"asc";else sortConfig={field:f,direction:"asc"};render()}
-function deps(w,t){const d=(t.dependencies||[]).map(id=>w.tasks.find(x=>x.id===id)).filter(Boolean).map(x=>`#${x.number} ${esc(x.name)}`);return d.length?d.join("<br>"):"-"}
-
-function renderGantt(w){if(!w.tasks.length)return `<div class="empty">No tasks available to generate the Gantt.</div>`;const min=w.tasks.reduce((m,t)=>t.createdAt<m?t.createdAt:m,w.tasks[0].createdAt),max=w.tasks.reduce((m,t)=>t.endDate>m?t.endDate:m,w.tasks[0].endDate),days=Math.max(daysBetween(min,max),1)+1,dw=38;const ticks=Array.from({length:days},(_,i)=>`<div class="tick">${addDays(min,i).slice(5)}</div>`).join("");return `<div class="gantt"><div class="gantt-grid"><div class="gantt-header"><div>Task</div><div class="timeline" style="grid-template-columns:repeat(${days},${dw}px)">${ticks}</div></div>${w.tasks.map(t=>{const left=daysBetween(min,t.createdAt)*dw,width=Math.max(Number(t.duration),1)*dw;return `<div class="gantt-row"><div class="gantt-label"><strong>#${t.number} ${esc(t.name)}</strong><br>${esc(t.owner)} · ${t.createdAt} → ${t.endDate}<br><span class="badge" style="background:${data.statusColors[t.status]||'#e5e7eb'};color:#111827">${esc(t.status)}</span><div class="filter-help">Depends on: ${deps(w,t).replaceAll("<br>",", ")}</div></div><div class="bar-area" style="width:${days*dw}px"><div class="bar" style="left:${left}px;width:${width}px;background:#b4b4b4;color:#111827">${esc(t.name)}</div></div></div>`}).join("")}</div></div>`}
-
-function allTasks(){return data.workstreams.flatMap(w=>w.tasks.map(t=>({...t,workstreamId:w.id,workstreamName:w.name})))}
-function dueRange(){if(!globalFilters.dueWindow)return null;const today=new Date();today.setHours(0,0,0,0);const limit=new Date(today);const n=Number(globalFilters.dueWindow.slice(0,-1)),u=globalFilters.dueWindow.slice(-1);if(u==="w")limit.setDate(today.getDate()+n*7);if(u==="m")limit.setMonth(today.getMonth()+n);return{today,limit}}
-function filteredGlobal(){let tasks=allTasks();if(globalFilters.workstreams.length)tasks=tasks.filter(t=>globalFilters.workstreams.includes(t.workstreamId));if(globalFilters.owners.length)tasks=tasks.filter(t=>globalFilters.owners.includes(t.owner));if(globalFilters.statuses.length)tasks=tasks.filter(t=>globalFilters.statuses.includes(t.status));const r=dueRange();if(r)tasks=tasks.filter(t=>{const e=new Date(`${t.endDate}T00:00:00`);return e>=r.today&&e<=r.limit});return tasks.sort((a,b)=>new Date(a.endDate)-new Date(b.endDate))}
-function renderGlobal(){
-  const tasks=filteredGlobal();
-
-  return `
-    <section class="card">
-      <h2>Global</h2>
-      <div class="mode-switch">
-        <button class="${globalMode==="presentation"?"primary":""}" onclick="globalMode='presentation';render()">Presentation mode</button>
-        <button class="${globalMode==="edit"?"primary":""}" onclick="globalMode='edit';render()">Edit mode</button>
-      </div>
-      <p class="hint">Global view aggregating backlog items from all workstreams.</p>
-    </section>
-
-    ${globalMode==="edit" ? renderGlobalEditMode() : ""}
-
-    <section class="card">
-      <h3>Global filters</h3>
-      <div class="global-filters">
-        <div class="filter-box">
-          <div class="filter-title">Workstream</div>
-          <div class="chips">
-            ${data.workstreams.map(w=>`
-              <label class="chip ${globalFilters.workstreams.includes(w.id)?"selected":""}">
-                <input type="checkbox" ${globalFilters.workstreams.includes(w.id)?"checked":""} onchange="toggleArray(globalFilters.workstreams,'${w.id}',this.checked);render()">
-                ${esc(w.name)}
-              </label>
-            `).join("")}
-          </div>
-        </div>
-
-        <div class="filter-box">
-          <div class="filter-title">Owner</div>
-          <select multiple class="multi-select" onchange="setGlobalSelect('owners',this)">
-            ${data.owners.map(o=>`<option value="${esc(o)}" ${globalFilters.owners.includes(o)?"selected":""}>${esc(o)}</option>`).join("")}
-          </select>
-          <div class="filter-help">No selection = all owners</div>
-        </div>
-
-        <div class="filter-box">
-          <div class="filter-title">Status</div>
-          <select multiple class="multi-select" onchange="setGlobalSelect('statuses',this)">
-            ${data.statuses.map(s=>`<option value="${esc(s)}" ${globalFilters.statuses.includes(s)?"selected":""}>${esc(s)}</option>`).join("")}
-          </select>
-          <div class="filter-help">No selection = all statuses</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="globalBacklogSection" class="card">
-      <div class="section-title-row">
-        <h3>Global backlog</h3>
-        <button class="maximize-btn" onclick="toggleMaximize('globalBacklogSection')" title="Expand"></button>
-      </div>
-      ${globalTable(tasks)}
-    </section>
-  `;
-}
-
-function renderGlobalEditMode(){
-  return `
-    <section class="card">
-      <h3>Global data management</h3>
-      <p class="hint">These actions import or export the full dashboard data across all workstreams.</p>
-      <div class="actions">
-        <button onclick="exportJSON()">⬇️ Export data</button>
-        <button onclick="document.getElementById('importFile').click()">⬆️ Import data</button><button onclick="loadDataFromSharePoint()">Load from SharePoint</button><button onclick="saveDataToSharePoint()">Save to SharePoint</button>
-      </div>
-    </section>
-  `;
-}
-
-function setGlobalSelect(type,sel){globalFilters[type]=Array.from(sel.selectedOptions).map(o=>o.value);render()}
-function globalTable(tasks){if(!tasks.length)return `<div class="empty">No backlog items match the selected filters.</div>`;return `<div class="table-wrap"><table><thead><tr><th>Workstream</th><th>ID</th><th>Task</th><th>Description</th><th>Start</th><th>Duration</th><th>End</th><th>Status</th><th>Owner</th></tr></thead><tbody>${tasks.map(t=>`<tr><td><strong>${esc(t.workstreamName)}</strong></td><td>#${t.number}</td><td><strong>${esc(t.name)}</strong></td><td>${esc(t.description)}</td><td>${t.createdAt}</td><td>${t.duration} days</td><td>${t.endDate}</td><td><span class="badge" style="background:${data.statusColors[t.status]||'#e5e7eb'};color:#111827">${esc(t.status)}</span></td><td>${esc(t.owner)}</td></tr>`).join("")}</tbody></table></div>`}
-
-function openOwnersModal(){renderOwners();document.getElementById("ownersModal").style.display="flex"}
-function openStatusModal(){renderStatuses();document.getElementById("statusModal").style.display="flex"}
-function closeModal(id){document.getElementById(id).style.display="none"}
-function renderOwners(){document.getElementById("ownersList").innerHTML=data.owners.map(o=>`<div class="row"><strong>${esc(o)}</strong><button class="danger" onclick="deleteOwner('${esc(o)}')">Delete</button></div>`).join("")||`<div class="empty">No owners.</div>`}
-function addOwner(){const v=document.getElementById("newOwnerInput").value.trim();if(!v)return;if(data.owners.includes(v))return alert("Owner already exists.");data.owners.push(v);document.getElementById("newOwnerInput").value="";renderOwners();render()}
-function deleteOwner(o){const used=data.workstreams.some(w=>w.tasks.some(t=>t.owner===o));if(used&&!confirm(`Owner "${o}" is in use. Delete anyway?`))return;data.owners=data.owners.filter(x=>x!==o);data.workstreams.forEach(w=>w.tasks.forEach(t=>{if(t.owner===o)t.owner=""}));renderOwners();render()}
-function renderStatuses(){
-  const list=document.getElementById("statusList");
-  list.innerHTML=data.statuses.map(s=>`
-    <div class="row">
-      <strong>${esc(s)}</strong>
-      <input class="status-color-input" type="color" value="${data.statusColors?.[s]||'#828282'}" 
-        onchange="changeStatusColor('${esc(s)}',this.value);syncHexInput('${esc(s)}',this.value)">
-       <input type="text" class="status-hex-input" value="${data.statusColors?.[s]||'#828282'}" 
-        onchange="changeStatusColor('${esc(s)}',this.value);syncColorInput('${esc(s)}',this.value)">
-      <button class="danger" onclick="deleteStatus('${esc(s)}')">Delete</button>
-    </div>
-  `).join("")||`<div class="empty">No status values.</div>`;
-}
-function addStatus(){const v=document.getElementById("newStatusInput").value.trim();if(!v)return;if(data.statuses.includes(v))return alert("Status already exists.");data.statuses.push(v);if(!data.statusColors)data.statusColors={};data.statusColors[v]=getRandomStatusColor();document.getElementById("newStatusInput").value="";renderStatuses();render()}
-function syncHexInput(status,color){
-  const inputs=document.querySelectorAll('.status-hex-input');
-}
-function syncColorInput(status,color){
-  const colorInputs=document.querySelectorAll('.status-color-input');
-}
-function changeStatusColor(status,color){
-  if(!data.statusColors)data.statusColors={};
-  data.statusColors[status]=color;
-  save();
-  render();
-}
-function deleteStatus(s){const used=data.workstreams.some(w=>w.tasks.some(t=>t.status===s));if(used&&!confirm(`Status "${s}" is in use. Tasks will move to another status. Continue?`))return;const fallback=data.statuses.find(x=>x!==s)||"Not started";data.statuses=data.statuses.filter(x=>x!==s);if(data.statusColors)delete data.statusColors[s];if(!data.statuses.length)data.statuses=[fallback];data.workstreams.forEach(w=>w.tasks.forEach(t=>{if(t.status===s)t.status=data.statuses[0]}));taskFilters.statuses=taskFilters.statuses.filter(x=>x!==s);globalFilters.statuses=globalFilters.statuses.filter(x=>x!==s);renderStatuses();render()}
-
-
-function sanitizeWorkstreamImport(imported,currentWorkstream){
-  let candidate=null;
-
-  if(imported && imported.type==="workstream" && imported.workstream){
-    candidate=imported.workstream;
-  }else if(imported && imported.name && Array.isArray(imported.tasks)){
-    candidate=imported;
-  }else{
-    throw new Error("Invalid workstream file");
-  }
-
-  const clean={
-    id:currentWorkstream.id,
-    name:currentWorkstream.name,
-    mode:"edit",
-    tasks:Array.isArray(candidate.tasks)?candidate.tasks:[]
-  };
-
-  clean.tasks=clean.tasks.map((t,index)=>({
-    id:t.id||uid("task"),
-    number:t.number||index+1,
-    name:t.name||`Task ${index+1}`,
-    description:t.description||"",
-    createdAt:t.createdAt||todayISO(),
-    duration:Number(t.duration||0),
-    endDate:t.endDate||addDays(t.createdAt||todayISO(),Number(t.duration||0)),
-    status:t.status||data.statuses[0]||"Not started",
-    owner:t.owner||"",
-    dependencies:Array.isArray(t.dependencies)?t.dependencies:[]
-  }));
-
-  clean.tasks.forEach(t=>{
-    if(t.status && !data.statuses.includes(t.status)){
-      data.statuses.push(t.status);
-      if(!data.statusColors)data.statusColors={};
-      data.statusColors[t.status]=getRandomStatusColor();
-    }
-    if(t.owner && !data.owners.includes(t.owner)){
-      data.owners.push(t.owner);
-    }
-  });
-
-  const validIds=new Set(clean.tasks.map(t=>t.id));
-  clean.tasks.forEach(t=>{
-    t.dependencies=(t.dependencies||[]).filter(dep=>validIds.has(dep)&&dep!==t.id);
-    t.endDate=addDays(t.createdAt,t.duration);
-  });
-
-  return clean;
-}
-
-function exportWorkstreamJSON(){
-  const w=getWorkstream();
-  if(!w)return alert("No workstream selected.");
-  const now=new Date();
-  const hh=String(now.getHours()).padStart(2,'0');
-  const mm=String(now.getMinutes()).padStart(2,'0');
-  const safeName=w.name.replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'').toLowerCase()||"workstream";
-  const payload={
-    type:"workstream",
-    exportedAt:new Date().toISOString(),
-    sourceWorkstreamId:w.id,
-    sourceWorkstreamName:w.name,
-    workstream:{
-      id:w.id,
-      name:w.name,
-      tasks:w.tasks
-    }
-  };
-  download(`aava-scib-${safeName}-workstream-${todayISO()}-${hh}${mm}.json`,JSON.stringify(payload,null,2),"application/json");
-}
-
-function importWorkstreamJSON(event){
-  const file=event.target.files[0];
-  if(!file)return;
-
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const imported=JSON.parse(e.target.result);
-
-      if(!imported || imported.type!=="workstream" || !imported.sourceWorkstreamId || !imported.workstream){
-        throw new Error("Invalid workstream export file");
-      }
-
-      const targetIndex=data.workstreams.findIndex(w=>w.id===imported.sourceWorkstreamId);
-
-      if(targetIndex<0){
-        alert(`This file belongs to workstream "${imported.sourceWorkstreamName||imported.workstream.name}", but that workstream does not exist in this dashboard. No data has been imported.`);
-        event.target.value="";
-        return;
-      }
-
-      const targetWorkstream=data.workstreams[targetIndex];
-
-      if(!confirm(`This file was exported from workstream "${imported.sourceWorkstreamName||targetWorkstream.name}". It will update only that workstream, even if you are currently viewing another one. Continue?`)){
-        event.target.value="";
-        return;
-      }
-
-      const clean=sanitizeWorkstreamImport(imported,targetWorkstream);
-      clean.id=targetWorkstream.id;
-      clean.name=targetWorkstream.name;
-
-      data.workstreams[targetIndex]=clean;
-      ensureStatusColors();
-      softenExistingStatusColors();
-      activeId=clean.id;
-      editingTaskId=null;
-      render();
-      alert(`Workstream "${clean.name}" imported successfully.`);
-    }catch(err){
-      alert("Invalid workstream JSON file.");
-    }
-    event.target.value="";
-  };
-  reader.readAsText(file);
-}
-
-
-function exportJSON(){
-  const now=new Date();
-  const hh=String(now.getHours()).padStart(2,'0');
-  const mm=String(now.getMinutes()).padStart(2,'0');
-  download(`aava-scib-program-${todayISO()}-${hh}${mm}.json`,JSON.stringify(data,null,2),"application/json")}
-function importJSON(e){const f=e.target.files[0];if(!f)return;if(!confirm("Importing will overwrite current data. Continue?"))return;e.target.value="";const r=new FileReader();r.onload=ev=>{try{data=normalize(JSON.parse(ev.target.result));ensureStatusColors();activeId="global";render();alert("Data imported successfully.")}catch{alert("Invalid JSON file.")}};r.readAsText(f)}
-function exportExcel(){const sheets=data.workstreams.map(w=>`<Worksheet ss:Name="${esc(w.name).slice(0,31)}"><Table><Row>${["ID","Task","Description","Start","Duration","End","Status","Owner","Dependencies"].map(h=>`<Cell><Data ss:Type="String">${h}</Data></Cell>`).join("")}</Row>${w.tasks.map(t=>`<Row><Cell><Data ss:Type="String">#${t.number}</Data></Cell><Cell><Data ss:Type="String">${esc(t.name)}</Data></Cell><Cell><Data ss:Type="String">${esc(t.description)}</Data></Cell><Cell><Data ss:Type="String">${t.createdAt}</Data></Cell><Cell><Data ss:Type="Number">${t.duration}</Data></Cell><Cell><Data ss:Type="String">${t.endDate}</Data></Cell><Cell><Data ss:Type="String">${esc(t.status)}</Data></Cell><Cell><Data ss:Type="String">${esc(t.owner)}</Data></Cell><Cell><Data ss:Type="String">${deps(w,t).replaceAll("<br>",", ")}</Data></Cell></Row>`).join("")}</Table></Worksheet>`).join("");const xls=`<?xml version="1.0"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">${sheets}</Workbook>`;download(`aava-scib-tasks-${todayISO()}.xls`,xls,"application/vnd.ms-excel")}
-function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.click();URL.revokeObjectURL(url)}
 render();
+loadFromBlob();
 </script>
 </body>
 </html>
